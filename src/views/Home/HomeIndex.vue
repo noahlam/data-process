@@ -1,14 +1,14 @@
 <template>
   <div class="v-wrap homeWrap">
-    <h2>欢迎您</h2>
+    <h2>数据统计</h2>
     <div class="boxWrap">
       <div class="topBox">
         <div class="imgBox">
           <img src="./assets/icon_device.png" alt="">
         </div>
-        <h4 class="content">今日发送</h4>
       </div>
-      <p class="text">模板类短信： <span class="v-red">{{num}}</span> 条</p>
+      <span class="text"><span class="v-red">{{ num }}</span>个</span>
+      <span class="text">报表类型</span>
     </div>
 
   </div>
@@ -59,11 +59,12 @@ export default {
     padding: 16px 30px ;
     border: 1px solid $border-base;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
     .topBox{
       display: flex;
       align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid $border-base;
+      /*padding-bottom: 10px;*/
       .imgBox{
         width: 80px;
         height: 80px;
@@ -85,7 +86,10 @@ export default {
     .text{
       font-size: $font-min-title;
       color: $text-second;
-      margin: 20px 0 10px;
+      margin-left:5px;
+    }
+    .vred{
+      color:red;
     }
   }
 

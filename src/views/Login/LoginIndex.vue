@@ -3,7 +3,7 @@
     <header>
       <div class="head-bar">
         <img src="../../assets/logo.png" class="logo" alt="logo">
-        <!--<h1>M信云管理后台</h1>-->
+        <!--<h1>株洲商务局报表管理后台</h1>-->
       </div>
     </header>
     <section>
@@ -22,11 +22,11 @@
             <el-form-item prop="password">
               <el-input name="password" type="password" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.password" autoComplete="on" placeholder="密码"> </el-input>
             </el-form-item>
-            <!--<el-form-item prop="validCode" class="codeBox">-->
-              <!--<el-input name="validCode" type="text" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.validCode" autoComplete="on" class="codeInput" placeholder="请输入验证码"> </el-input>-->
-              <!--<img :src="loginForm.codePicUrl" alt="验证码" @click="getVerifyCode">-->
-              <!--<el-button type="text" @click="getVerifyCode">换一张</el-button>-->
-            <!--</el-form-item>-->
+            <el-form-item prop="validCode" class="codeBox">
+              <el-input name="validCode" type="text" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.validCode" autoComplete="on" class="codeInput" placeholder="请输入验证码"> </el-input>
+              <img :src="loginForm.codePicUrl" alt="图形验证码" @click="getVerifyCode">
+              <el-button type="text" @click="getVerifyCode">换一张</el-button>
+            </el-form-item>
             <el-form-item class="checkBox">
               <el-checkbox v-model="loginForm.rememberPas">记住密码</el-checkbox>
             </el-form-item>
