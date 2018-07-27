@@ -9,6 +9,7 @@
       </div>
       <span class="text"><span class="v-red">{{ num }}</span>个</span>
       <span class="text">报表类型</span>
+      sb
     </div>
 
   </div>
