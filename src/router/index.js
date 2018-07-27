@@ -8,6 +8,12 @@ import Home from '@/views/Home/HomeIndex'
 
 // 模板审核
 import TemplateList from '@/views/TemplateModule/TemplateList'
+// 报表类型
+import reportFormType from '@/views/reportForm/reportFormType'
+// 报表列表
+import reportFormTypeList from '@/views/reportFormList/reportFormTypeList'
+
+import userList from '@/views/userList/userList'
 
 // 客户端配置
 import InterfaceDocSetting from '@/views/ClientConfig/InterfaceDocSetting'
@@ -42,7 +48,7 @@ export const constantRouterMap = [
 export const asyncRouterMap = [
   {
     path: '/templateModule',
-    name: '模板审核',
+    name: '报表',
     component: Layout,
     meta: {menuId: 'templateModule', icon: 'el-icon-tickets'},
     redirect: '/templateModule/templateList',
@@ -53,6 +59,53 @@ export const asyncRouterMap = [
         name: '模板审核列表',
         component: TemplateList,
         meta: {menuId: '/templateModule/templateList'}
+      }
+    ]
+  },
+  {
+    path: '/reportForm',
+    name: '报表类型',
+    component: Layout,
+    meta: {menuId: 'reportForm', icon: 'el-icon-tickets'},
+    redirect: '/reportForm/reportFormType',
+    noDropDown: true,
+    children: [
+      {
+        path: 'reportFormType',
+        name: '模板审核列表',
+        component: reportFormType,
+        meta: {menuId: '/reportForm/reportFormType'}
+      }
+    ]
+  },
+  {
+    path: '/reportFormList',
+    name: '报表列表',
+    component: Layout,
+    meta: {menuId: 'reportFormList', icon: 'el-icon-tickets'},
+    redirect: '/reportFormList/reportFormTypeList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'reportFormTypeList',
+        name: '报表列表',
+        component: reportFormTypeList,
+        meta: {menuId: '/reportFormList/reportFormTypeList'}
+      }
+    ]
+  },
+  {
+    path: '/userList',
+    name: '用户列表',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    children: [
+      {
+        path: 'userList',
+        name: '用户列表',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
       }
     ]
   },
