@@ -9,7 +9,24 @@
       </div>
       <span class="text"><span class="v-red">{{ num }}</span>个</span>
       <span class="text">报表类型</span>
-      sb
+    </div>
+    <div class="boxWrap">
+      <div class="topBox">
+        <div class="imgBox">
+          <img src="./assets/icon_device.png" alt="">
+        </div>
+      </div>
+      <span class="text"><span class="v-red">{{ num }}</span>个</span>
+      <span class="text">报表类型</span>
+    </div>
+    <div class="boxWrap">
+      <div class="topBox">
+        <div class="imgBox">
+          <img src="./assets/icon_device.png" alt="">
+        </div>
+      </div>
+      <span class="text"><span class="v-red">{{ num }}</span>个</span>
+      <span class="text">报表类型</span>
     </div>
 
   </div>
@@ -56,16 +73,15 @@ export default {
   }
   .boxWrap{
     width: 300px;
-    /*height: 150px;*/
     padding: 16px 30px ;
     border: 1px solid $border-base;
     border-radius: 4px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    margin-left:80px;
     .topBox{
       display: flex;
       align-items: center;
-      /*padding-bottom: 10px;*/
       .imgBox{
         width: 80px;
         height: 80px;
