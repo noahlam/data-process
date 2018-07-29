@@ -4,13 +4,51 @@
       <h3 class="v-title">报表类型</h3>
     </div>
     <el-button class="addButton" type="primary" style="width:150px;" icon="el-icon-plus" @click="open()">添加报表类型</el-button>
+      <el-table
+        :data="tableData"
+        style="width: 100%">
+        <el-table-column
+          prop="date"
+          label="编号"
+          width="180"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          prop="name"
+          label="报表类型"
+          width="180"
+          align="center">
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          align="center">
+          <template slot-scope="scope">
+            <el-button type="primary" size="small">编辑</el-button>
+            <el-button type="danger"  size="small">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
   </div>
 </template>
 <script>
 export default {
   name: 'reportFormType',
   data () {
-    return {}
+    return {
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎'
+      }]
+    }
   },
   methods: {
     open () {

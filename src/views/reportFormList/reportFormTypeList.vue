@@ -3,10 +3,94 @@
     <div class="v-title-box">
       <h3 class="v-title">报表列表</h3>
     </div>
-    <el-button class="addButton" type="primary" style="width:150px;" icon="el-icon-plus">新增报表</el-button>
+    <div class="menu-bar">
+      <span>报表类型</span>
+      <el-select v-model="value4" clearable placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <span style="margin-left:20px;">报表名称</span>
+      <el-select v-model="value4" clearable placeholder="请选择">
+        <el-option
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button type="primary">搜索</el-button>
+      <el-button>清空</el-button>
+    </div>
+    <router-link to="/index/reportFormListWrite">
+      <el-button class="addButton" type="primary" style="width:150px;" icon="el-icon-plus">新增报表</el-button>
+    </router-link>
+    <el-table
+      :data="tableData"
+      style="width: 100%">
+      <el-table-column
+        prop="date"
+        label="编号"
+        width="180"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        prop="name"
+        label="报表类型"
+        width="180"
+        align="center">
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        align="center">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small">编辑</el-button>
+          <el-button type="danger"  size="small">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 <script>
+export default {
+  data () {
+    return {
+      options: [{
+        value: '选项1',
+        label: '黄金糕'
+      }, {
+        value: '选项2',
+        label: '双皮奶'
+      }, {
+        value: '选项3',
+        label: '蚵仔煎'
+      }, {
+        value: '选项4',
+        label: '龙须面'
+      }, {
+        value: '选项5',
+        label: '北京烤鸭'
+      }],
+      value4: '',
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎'
+      }]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped rel="stylesheet/scss">
@@ -51,5 +135,13 @@
     margin-top:10px;
     margin-bottom:10px;
   }
-
+  .menu-bar{
+    margin-top:20px;
+    margin-bottom:20px;
+  }
+  .menu-bar span{
+    font-size:14px;
+    color:#333333;
+    margin-right:20px;
+  }
 </style>

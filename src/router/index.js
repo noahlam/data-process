@@ -12,7 +12,9 @@ import TemplateList from '@/views/TemplateModule/TemplateList'
 import reportFormType from '@/views/reportForm/reportFormType'
 // 报表列表
 import reportFormTypeList from '@/views/reportFormList/reportFormTypeList'
-
+// 报表列表-报表填写
+import reportFormListWrite from '@/views/reportFormList/reportFormListWrite'
+// 用户列表
 import userList from '@/views/userList/userList'
 
 // 客户端配置
@@ -31,9 +33,11 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/index',
     name: 'Home',
-    children: [{path: 'index', component: Home}]
+    children: [{path: 'index', component: Home},
+      {path: '/index/reportFormListWrite', component: reportFormListWrite}
+    ]
   },
-  {path: '*', component: Err404}
+  {path: '*', component: Err404},
 ]
 /**
  *  asyncRouterMap 用于做权限控制，以及对应菜单的生成
@@ -100,6 +104,7 @@ export const asyncRouterMap = [
     component: Layout,
     meta: {menuId: 'userList', icon: 'el-icon-tickets'},
     redirect: '/userList/userList',
+    noDropDown: true,
     children: [
       {
         path: 'userList',
@@ -109,6 +114,102 @@ export const asyncRouterMap = [
       }
     ]
   },
+/*  {
+    path: '/userList',
+    name: '平台设置',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'userList',
+        name: '平台设置',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
+      }
+    ]
+  },
+  {
+    path: '/userList',
+    name: '文章列表',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'userList',
+        name: '文章列表',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
+      }
+    ]
+  },
+  {
+    path: '/userList',
+    name: 'Banner设置',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'userList',
+        name: 'Banner设置',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
+      }
+    ]
+  },
+  {
+    path: '/userList',
+    name: '系统设置',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'userList',
+        name: '系统设置',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
+      }
+    ]
+  },
+  {
+    path: '/userList',
+    name: '权限管理',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'userList',
+        name: '权限管理',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
+      }
+    ]
+  },
+  {
+    path: '/userList',
+    name: '操作日志',
+    component: Layout,
+    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    redirect: '/userList/userList',
+    noDropDown: true,
+    children: [
+      {
+        path: 'userList',
+        name: '操作日志',
+        component: userList,
+        meta: {menuId: '/userList/userList'}
+      }
+    ]
+  },*/
   {
     path: '/clientConfig',
     name: '客户端配置',
