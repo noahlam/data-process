@@ -6,17 +6,17 @@ import Layout from '@/views/Layout/Layout'
 import Login from '@/views/Login/LoginIndex'
 import Home from '@/views/Home/HomeIndex'
 
-// 模板审核
-import TemplateList from '@/views/TemplateModule/TemplateList'
 // 报表类型
-import reportFormType from '@/views/reportForm/reportFormType'
+import reportFormType from '@/views/ReportForm/ReportFormType'
 // 报表列表
-import reportFormTypeList from '@/views/reportFormList/reportFormTypeList'
+import reportFormList from '@/views/ReportForm/ReportFormList'
 // 报表列表-报表填写
-import reportFormListWrite from '@/views/reportFormList/reportFormListWrite'
+import reportFormListWrite from '@/views/ReportForm/ReportFormListWrite'
 // 用户列表
-import userList from '@/views/userList/userList'
-
+import userList from '@/views/UserList/UserList'
+import userSetting from '@/views/UserList/UserSetting'
+// 文章列表
+import articleList from '@/views/PlatformConfig/ArticleList'
 // 客户端配置
 import InterfaceDocSetting from '@/views/ClientConfig/InterfaceDocSetting'
 
@@ -34,10 +34,14 @@ export const constantRouterMap = [
     redirect: '/index',
     name: 'Home',
     children: [{path: 'index', component: Home},
-      {path: '/index/reportFormListWrite', component: reportFormListWrite}
+      {path: '/reportForm/reportFormType', component: reportFormType},
+      {path: '/reportForm/reportFormList', component: reportFormList},
+      {path: '/reportForm/reportFormListWrite', component: reportFormListWrite},
+      {path: '/userList/userSetting', component: userSetting},
+      {path: '/platformConfig/articleList', component: articleList}
     ]
   },
-  {path: '*', component: Err404},
+  {path: '*', component: Err404}
 ]
 /**
  *  asyncRouterMap 用于做权限控制，以及对应菜单的生成
@@ -51,55 +55,27 @@ export const constantRouterMap = [
  * */
 export const asyncRouterMap = [
   {
-    path: '/templateModule',
+    path: '/',
     name: '报表',
     component: Layout,
-    meta: {menuId: 'templateModule', icon: 'el-icon-tickets'},
-    redirect: '/templateModule/templateList',
-    noDropDown: true,
+    meta: {menuId: 'ReportForm', icon: 'el-icon-tickets'},
     children: [
       {
-        path: 'templateList',
-        name: '模板审核列表',
-        component: TemplateList,
-        meta: {menuId: '/templateModule/templateList'}
-      }
-    ]
-  },
-  {
-    path: '/reportForm',
-    name: '报表类型',
-    component: Layout,
-    meta: {menuId: 'reportForm', icon: 'el-icon-tickets'},
-    redirect: '/reportForm/reportFormType',
-    noDropDown: true,
-    children: [
-      {
-        path: 'reportFormType',
-        name: '模板审核列表',
+        path: 'ReportForm',
+        name: '报表类型',
         component: reportFormType,
         meta: {menuId: '/reportForm/reportFormType'}
-      }
-    ]
-  },
-  {
-    path: '/reportFormList',
-    name: '报表列表',
-    component: Layout,
-    meta: {menuId: 'reportFormList', icon: 'el-icon-tickets'},
-    redirect: '/reportFormList/reportFormTypeList',
-    noDropDown: true,
-    children: [
+      },
       {
-        path: 'reportFormTypeList',
+        path: 'ReportForm',
         name: '报表列表',
-        component: reportFormTypeList,
-        meta: {menuId: '/reportFormList/reportFormTypeList'}
+        component: reportFormList,
+        meta: {menuId: '/reportForm/reportFormList'}
       }
     ]
   },
   {
-    path: '/userList',
+    path: '/UserList',
     name: '用户列表',
     component: Layout,
     meta: {menuId: 'userList', icon: 'el-icon-tickets'},
@@ -114,102 +90,21 @@ export const asyncRouterMap = [
       }
     ]
   },
-/*  {
-    path: '/userList',
-    name: '平台设置',
-    component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
-    redirect: '/userList/userList',
-    noDropDown: true,
-    children: [
-      {
-        path: 'userList',
-        name: '平台设置',
-        component: userList,
-        meta: {menuId: '/userList/userList'}
-      }
-    ]
-  },
   {
-    path: '/userList',
-    name: '文章列表',
+    path: '/PlatformConfig',
+    name: '平台配置',
     component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
-    redirect: '/userList/userList',
-    noDropDown: true,
+    meta: {menuId: 'PlatformConfig', icon: 'el-icon-mobile-phone'},
+    // redirect: '/clientConfig/interfaceDocSetting',
     children: [
       {
-        path: 'userList',
+        path: 'articleList',
         name: '文章列表',
-        component: userList,
-        meta: {menuId: '/userList/userList'}
+        component: articleList,
+        meta: {menuId: '/platformConfig/articleList'}
       }
     ]
   },
-  {
-    path: '/userList',
-    name: 'Banner设置',
-    component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
-    redirect: '/userList/userList',
-    noDropDown: true,
-    children: [
-      {
-        path: 'userList',
-        name: 'Banner设置',
-        component: userList,
-        meta: {menuId: '/userList/userList'}
-      }
-    ]
-  },
-  {
-    path: '/userList',
-    name: '系统设置',
-    component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
-    redirect: '/userList/userList',
-    noDropDown: true,
-    children: [
-      {
-        path: 'userList',
-        name: '系统设置',
-        component: userList,
-        meta: {menuId: '/userList/userList'}
-      }
-    ]
-  },
-  {
-    path: '/userList',
-    name: '权限管理',
-    component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
-    redirect: '/userList/userList',
-    noDropDown: true,
-    children: [
-      {
-        path: 'userList',
-        name: '权限管理',
-        component: userList,
-        meta: {menuId: '/userList/userList'}
-      }
-    ]
-  },
-  {
-    path: '/userList',
-    name: '操作日志',
-    component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
-    redirect: '/userList/userList',
-    noDropDown: true,
-    children: [
-      {
-        path: 'userList',
-        name: '操作日志',
-        component: userList,
-        meta: {menuId: '/userList/userList'}
-      }
-    ]
-  },*/
   {
     path: '/clientConfig',
     name: '客户端配置',

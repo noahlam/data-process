@@ -25,7 +25,7 @@
       <el-button type="primary">搜索</el-button>
       <el-button>清空</el-button>
     </div>
-    <router-link to="/index/reportFormListWrite">
+    <router-link to="/reportForm/reportFormListWrite">
       <el-button class="addButton" type="primary" style="width:150px;" icon="el-icon-plus">新增报表</el-button>
     </router-link>
     <el-table
