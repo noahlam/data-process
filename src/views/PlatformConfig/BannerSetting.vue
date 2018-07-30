@@ -1,11 +1,10 @@
 <template>
-
+  <div>
+    <h1>banner设置</h1>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "BannerSetting"
-    }
 </script>
 
 <style scoped>

@@ -4,7 +4,9 @@
       <h3 class="v-title">文章列表</h3>
     </div>
     <div class="addButton">
-      <el-button icon="el-icon-plus" type="primary">添加</el-button>
+      <router-link to="/platformConfig/articleContent">
+        <el-button icon="el-icon-plus" type="primary">添加</el-button>
+      </router-link>
       <el-button>批量删除</el-button>
     </div>
     <div>

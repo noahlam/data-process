@@ -17,6 +17,8 @@ import userList from '@/views/UserList/UserList'
 import userSetting from '@/views/UserList/UserSetting'
 // 文章列表
 import articleList from '@/views/PlatformConfig/ArticleList'
+import articleContent from '@/views/PlatformConfig/ArticleContent'
+import bannerSetting from '@/views/PlatformConfig/BannerSetting'
 // 客户端配置
 import InterfaceDocSetting from '@/views/ClientConfig/InterfaceDocSetting'
 
@@ -38,7 +40,9 @@ export const constantRouterMap = [
       {path: '/reportForm/reportFormList', component: reportFormList},
       {path: '/reportForm/reportFormListWrite', component: reportFormListWrite},
       {path: '/userList/userSetting', component: userSetting},
-      {path: '/platformConfig/articleList', component: articleList}
+      {path: '/platformConfig/articleList', component: articleList},
+      {path: '/platformConfig/articleContent', component: articleContent},
+      {path: '/platformConfig/bannerSetting', component: bannerSetting}
     ]
   },
   {path: '*', component: Err404}
