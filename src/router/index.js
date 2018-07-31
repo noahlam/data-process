@@ -19,9 +19,9 @@ import userSetting from '@/views/UserList/UserSetting'
 import articleList from '@/views/PlatformConfig/ArticleList'
 import articleContent from '@/views/PlatformConfig/ArticleContent'
 import bannerSetting from '@/views/PlatformConfig/BannerSetting'
-// 客户端配置
-import InterfaceDocSetting from '@/views/ClientConfig/InterfaceDocSetting'
-
+import operationLog from '@/views/SystemSetting/OperationLog'
+// 修改密码
+import editPassword from '@/views/EditPassword'
 /* error page */
 import Err404 from '@/views/404'
 
@@ -42,7 +42,9 @@ export const constantRouterMap = [
       {path: '/userList/userSetting', component: userSetting},
       {path: '/platformConfig/articleList', component: articleList},
       {path: '/platformConfig/articleContent', component: articleContent},
-      {path: '/platformConfig/bannerSetting', component: bannerSetting}
+      {path: '/platformConfig/bannerSetting', component: bannerSetting},
+      {path: '/SystemSetting/operationLog', component: operationLog},
+      {path: '/index/editPassword', component: editPassword}
     ]
   },
   {path: '*', component: Err404}
@@ -62,7 +64,7 @@ export const asyncRouterMap = [
     path: '/',
     name: '报表',
     component: Layout,
-    meta: {menuId: 'ReportForm', icon: 'el-icon-tickets'},
+    meta: {menuId: 'ReportForm', icon: 'xxx'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
     children: [
       {
         path: 'ReportForm',
@@ -82,7 +84,7 @@ export const asyncRouterMap = [
     path: '/UserList',
     name: '用户列表',
     component: Layout,
-    meta: {menuId: 'userList', icon: 'el-icon-tickets'},
+    meta: {menuId: 'userList', icon: 'xxx'},
     redirect: '/userList/userList',
     noDropDown: true,
     children: [
@@ -98,29 +100,33 @@ export const asyncRouterMap = [
     path: '/PlatformConfig',
     name: '平台配置',
     component: Layout,
-    meta: {menuId: 'PlatformConfig', icon: 'el-icon-mobile-phone'},
-    // redirect: '/clientConfig/interfaceDocSetting',
+    meta: {menuId: 'PlatformConfig', icon: 'xxx'},
     children: [
       {
         path: 'articleList',
         name: '文章列表',
         component: articleList,
         meta: {menuId: '/platformConfig/articleList'}
+      },
+      {
+        path: 'bannerSetting',
+        name: 'Banner',
+        component: bannerSetting,
+        meta: {menuId: '/platformConfig/bannerSetting'}
       }
     ]
   },
   {
-    path: '/clientConfig',
-    name: '客户端配置',
+    path: '/SystemSetting',
+    name: '系统设置',
     component: Layout,
-    meta: {menuId: 'clientConfig', icon: 'el-icon-mobile-phone'},
-    redirect: '/clientConfig/interfaceDocSetting',
+    meta: {menuId: 'operationLog', icon: 'xxx'},
     children: [
       {
-        path: 'interfaceDocSetting',
-        name: '接口文档设置',
-        component: InterfaceDocSetting,
-        meta: {menuId: '/clientConfig/interfaceDocSetting'}
+        path: 'operationLog',
+        name: '操作日志',
+        component: operationLog,
+        meta: {menuId: '/SystemSetting/operationLog'}
       }
     ]
   }

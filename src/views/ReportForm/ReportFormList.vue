@@ -52,6 +52,12 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="footer">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="1000">
+      </el-pagination>
+    </div>
   </div>
 </template>
 <script>
@@ -143,5 +149,9 @@ export default {
     font-size:14px;
     color:#333333;
     margin-right:20px;
+  }
+  .footer{
+    margin-top:50px;
+    float:right;
   }
 </style>

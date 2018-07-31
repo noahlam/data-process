@@ -23,7 +23,7 @@
           label="操作"
           align="center">
           <template slot-scope="scope">
-            <el-button type="primary" size="small">编辑</el-button>
+            <el-button type="primary" size="small" @click="open()">编辑</el-button>
             <el-button type="danger"  size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -63,10 +63,6 @@ export default {
           message: '你输入的值是: ' + value
         })
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '取消输入'
-        })
       })
     }
   }
