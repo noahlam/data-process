@@ -10,6 +10,9 @@
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
       <el-dropdown-menu slot="dropdown" class="menuDropWrap">
+        <router-link to="/index/editPassword">
+          <el-dropdown-item>修改密码</el-dropdown-item>
+        </router-link>
         <el-dropdown-item command="toLogout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
