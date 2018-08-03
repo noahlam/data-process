@@ -1,14 +1,13 @@
 <template>
   <div class="wrap">
+    <el-form :model="data" :rules="rules" ref="ruleForm" label-width="100px" style="width: 420px;">
 
-    <el-form :model="data" :rules="rules" ref="ruleForm" label-width="100px">
-
-      <el-form-item label="报表名称" prop="name">
-        <el-input v-model="data.name" class="w400"></el-input>
+      <el-form-item label="图表名称" prop="name">
+        <el-input v-model="data.name" class="w320"></el-input>
       </el-form-item>
 
-      <el-form-item label="报表类型" prop="type">
-        <el-select v-model="value4" clearable placeholder="请选择"  class="w400">
+      <el-form-item label="图表选择" prop="type">
+        <el-select v-model="value4" clearable placeholder="请选择"  class="w320">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -18,25 +17,26 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="副标题" prop="subTitle">
-        <el-input v-model="data.subTitle"  class="w400"></el-input>
+      <el-form-item label="数据源" ></el-form-item>
+
+      <el-form-item label="横轴(x)" prop="unit">
+        <el-input v-model="data.unit"  class="w150"></el-input>
+        -
+        <el-input v-model="data.unit"  class="w150"></el-input>
       </el-form-item>
 
-      <el-form-item label="单位" prop="unit">
-        <el-input v-model="data.unit"  class="w400"></el-input>
-      </el-form-item>
-
-      <el-form-item label="备注/说明" prop="reamrk">
-        <el-input type="textarea" v-model="data.reamrk" class="w400"></el-input>
+      <el-form-item label="纵轴(y)" prop="unit">
+        <el-input v-model="data.unit"  class="w150"></el-input>
+        -
+        <el-input v-model="data.unit"  class="w150"></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="gotoNext">下一步</el-button>
-        <el-button @click="onCancel">取消</el-button>
+        <el-button type="primary" @click="onReview">预览</el-button>
+        <el-button @click="onDelete">删除</el-button>
       </el-form-item>
-
     </el-form>
-
+    <div class="chart"></div>
   </div>
 </template>
 <script>
@@ -68,14 +68,22 @@ export default {
     }
   },
   methods: {
-    // 下一步
-    gotoNext () {},
-    // 取消
-    onCancel () {}
+    // 预览
+    onReview () {},
+    // 删除
+    onDelete () {}
   }
 }
 </script>
 
 <style lang="scss" scoped rel="stylesheet/scss">
-  .w400 {width: 400px;}
+  .w320 {width: 312px;}
+  .w150{width: 150px;}
+  .mtb20 {margin: 20px 0;}
+  .wrap{display: flex;}
+  .chart{
+    width: 400px;
+    height: 400px;
+    margin-left: 20px;
+  }
 </style>
