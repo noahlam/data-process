@@ -27,7 +27,7 @@
 <script>
 import EditDialog from './components/EditDialog'
 export default {
-  name: 'reportFormType',
+  name: 'reportType',
   components: {EditDialog},
   data () {
     return {

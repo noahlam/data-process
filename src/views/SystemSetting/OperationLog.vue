@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  name: 'reportFormType',
+  name: 'reportType',
   data () {
     return {
       mainLoading: false,

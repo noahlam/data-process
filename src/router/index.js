@@ -7,11 +7,11 @@ import Login from '@/views/Login/LoginIndex'
 import Home from '@/views/Home/HomeIndex'
 
 // 报表类型
-import reportFormType from '@/views/ReportForm/ReportFormType/ReportFormType'
+import ReportType from '@/views/Report/ReportType/ReportType'
 // 报表列表
-import reportFormList from '@/views/ReportForm/ReportFormList'
+import ReportList from '@/views/Report/ReportList'
 // 报表列表-报表填写
-import reportFormListWrite from '@/views/ReportForm/ReportFormListWrite'
+import ReportEdit from '@/views/Report/ReportEdit'
 // 用户列表
 import userList from '@/views/UserList/UserList'
 import userSetting from '@/views/UserList/UserSetting'
@@ -68,29 +68,29 @@ export const constantRouterMap = [
  * */
 export const asyncRouterMap = [
   {
-    path: '/reportForm',
+    path: '/report',
     name: '报表',
     component: Layout,
-    meta: {menuId: '/reportForm'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
+    meta: {menuId: '/report'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
     children: [
       {
-        path: 'reportFormType',
+        path: 'reportType',
         name: '报表类型',
-        component: reportFormType,
-        meta: {menuId: '/reportForm/reportFormType'}
+        component: ReportType,
+        meta: {menuId: '/report/reportType'}
       },
       {
-        path: 'reportFormList',
+        path: 'reportList',
         name: '报表列表',
-        component: reportFormList,
-        meta: {menuId: '/reportForm/reportFormList', childrenList: ['/reportForm/reportFormListWrite']}
+        component: ReportList,
+        meta: {menuId: '/report/reportList', childrenList: ['/report/reportEdit']}
       },
       {
-        path: 'reportFormListWrite',
+        path: 'reportEdit',
         name: '报表填写',
-        component: reportFormListWrite,
+        component: ReportEdit,
         hidden: true,
-        meta: {menuId: '/reportForm/reportFormListWrite'}
+        meta: {menuId: '/report/reportEdit'}
       }
     ]
   },
