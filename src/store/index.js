@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 /**
  * 模块store引入
  */
-import mainStore from '@/views/mainStore'
 import permission from '@/store/permission'
 
 import login from '@/views/Login/store'
@@ -12,7 +11,6 @@ import login from '@/views/Login/store'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   modules: {
-    mainStore,
     permission,
     login
   }

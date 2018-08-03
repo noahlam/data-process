@@ -7,7 +7,7 @@ import Login from '@/views/Login/LoginIndex'
 import Home from '@/views/Home/HomeIndex'
 
 // 报表类型
-import reportFormType from '@/views/ReportForm/ReportFormType'
+import reportFormType from '@/views/ReportForm/ReportFormType/ReportFormType'
 // 报表列表
 import reportFormList from '@/views/ReportForm/ReportFormList'
 // 报表列表-报表填写
@@ -15,13 +15,14 @@ import reportFormListWrite from '@/views/ReportForm/ReportFormListWrite'
 // 用户列表
 import userList from '@/views/UserList/UserList'
 import userSetting from '@/views/UserList/UserSetting'
+
 // 文章列表
 import articleList from '@/views/PlatformConfig/ArticleList'
-import articleContent from '@/views/PlatformConfig/ArticleContent'
-import bannerSetting from '@/views/PlatformConfig/BannerSetting'
+import articleContent from '@/views/PlatformConfig/ArticleContent/ArticleContent'
+import bannerSetting from '@/views/PlatformConfig/BannerSetting/BannerSetting'
+
 import operationLog from '@/views/SystemSetting/OperationLog'
-// 修改密码
-import editPassword from '@/views/EditPassword'
+
 /* error page */
 import Err404 from '@/views/404'
 
@@ -35,19 +36,25 @@ export const constantRouterMap = [
     component: Layout,
     redirect: '/index',
     name: 'Home',
-    children: [{path: 'index', component: Home},
-      {path: '/reportForm/reportFormType', component: reportFormType},
-      {path: '/reportForm/reportFormList', component: reportFormList},
-      {path: '/reportForm/reportFormListWrite', component: reportFormListWrite},
-      {path: '/userList/userSetting', component: userSetting},
-      {path: '/platformConfig/articleList', component: articleList},
-      {path: '/platformConfig/articleContent', component: articleContent},
-      {path: '/platformConfig/bannerSetting', component: bannerSetting},
-      {path: '/SystemSetting/operationLog', component: operationLog},
-      {path: '/index/editPassword', component: editPassword}
-    ]
+    children: [{path: 'index', component: Home}]
   },
   {path: '*', component: Err404}
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/index',
+  //   name: 'Home',
+  //   children: [{path: 'index', component: Home},
+  //     {path: '/reportForm/reportFormType', component: reportFormType},
+  //     {path: '/reportForm/reportFormList', component: reportFormList},
+  //     {path: '/reportForm/reportFormListWrite', component: reportFormListWrite},
+  //     {path: '/userList/userSetting', component: userSetting},
+  //     {path: '/platformConfig/articleList', component: articleList},
+  //     {path: '/platformConfig/articleContent', component: articleContent},
+  //     {path: '/platformConfig/bannerSetting', component: bannerSetting},
+  //     {path: '/SystemSetting/operationLog', component: operationLog},
+  //   ]
+  // }
 ]
 /**
  *  asyncRouterMap 用于做权限控制，以及对应菜单的生成
@@ -61,52 +68,72 @@ export const constantRouterMap = [
  * */
 export const asyncRouterMap = [
   {
-    path: '/',
+    path: '/reportForm',
     name: '报表',
     component: Layout,
-    meta: {menuId: 'ReportForm', icon: 'xxx'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
+    meta: {menuId: '/reportForm'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
     children: [
       {
-        path: 'ReportForm',
+        path: 'reportFormType',
         name: '报表类型',
         component: reportFormType,
         meta: {menuId: '/reportForm/reportFormType'}
       },
       {
-        path: 'ReportForm',
+        path: 'reportFormList',
         name: '报表列表',
         component: reportFormList,
-        meta: {menuId: '/reportForm/reportFormList'}
+        meta: {menuId: '/reportForm/reportFormList', childrenList: ['/reportForm/reportFormListWrite']}
+      },
+      {
+        path: 'reportFormListWrite',
+        name: '报表填写',
+        component: reportFormListWrite,
+        hidden: true,
+        meta: {menuId: '/reportForm/reportFormListWrite'}
       }
     ]
   },
   {
-    path: '/UserList',
+    path: '/user',
     name: '用户列表',
     component: Layout,
-    meta: {menuId: 'userList', icon: 'xxx'},
-    redirect: '/userList/userList',
+    meta: {menuId: '/user', childrenList: ['/user/userList', '/user/userSetting']},
+    redirect: '/user/userList',
     noDropDown: true,
     children: [
       {
         path: 'userList',
-        name: '用户列表',
+        name: '用户列表-列表',
         component: userList,
-        meta: {menuId: '/userList/userList'}
+        meta: {menuId: '/user/userList'}
+      },
+      {
+        path: 'userSetting',
+        name: '用户列表-详情',
+        component: userSetting,
+        meta: {menuId: '/user/userSetting'}
       }
     ]
   },
   {
-    path: '/PlatformConfig',
+    path: '/platformConfig',
     name: '平台配置',
     component: Layout,
-    meta: {menuId: 'PlatformConfig', icon: 'xxx'},
+    meta: {menuId: '/platformConfig', icon: 'xxx'},
     children: [
       {
         path: 'articleList',
         name: '文章列表',
         component: articleList,
-        meta: {menuId: '/platformConfig/articleList'}
+        meta: {menuId: '/platformConfig/articleList', childrenList: ['/platformConfig/articleContent']}
+      },
+      {
+        path: 'articleContent',
+        name: '文章内容',
+        component: articleContent,
+        hidden: true,
+        meta: {menuId: '/platformConfig/articleContent'}
       },
       {
         path: 'bannerSetting',
@@ -117,16 +144,16 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/SystemSetting',
+    path: '/systemSetting',
     name: '系统设置',
     component: Layout,
-    meta: {menuId: 'operationLog', icon: 'xxx'},
+    meta: {menuId: '/systemSetting'},
     children: [
       {
         path: 'operationLog',
         name: '操作日志',
         component: operationLog,
-        meta: {menuId: '/SystemSetting/operationLog'}
+        meta: {menuId: '/systemSetting/operationLog'}
       }
     ]
   }

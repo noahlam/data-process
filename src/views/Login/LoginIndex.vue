@@ -1,5 +1,5 @@
 <template>
-  <div class="home-background">
+  <div class="loginWrap">
   <!--    <section>
       <div class="box">
         <div class="rightPart">
@@ -32,29 +32,27 @@
       </div>
       </section>-->
     <div class="main">
-      <div class="main-title">株洲商务局报表管理后台</div>
-        <div class="input-width">
-          <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px">
-            <p>用户名</p>
-            <el-form-item prop="username">
-              <el-input name="text" type="text" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.username" autoComplete="on" placeholder="账号"> </el-input>
-            </el-form-item>
-            <p>密码</p>
-            <el-form-item prop="password">
-              <el-input name="password" type="password" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.password" autoComplete="on" placeholder="密码"> </el-input>
-            </el-form-item>
-            <p>短信验证码</p>
-            <el-form-item prop="validCode">
-              <el-input style="width:230px;" name="validCode" type="text" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.validCode" autoComplete="on" placeholder="请输入验证码"> </el-input>
-              <img class="vaild-code-img" :src="loginForm.codePicUrl" alt="图形验证码" @click="getVerifyCode">
-            </el-form-item>
-            <el-form-item>
-              <el-button style="width:320px;margin-top:30px;" type="primary" @click="handleLogin">
-                登录
-              </el-button>
-            </el-form-item>
-          </el-form>
-        </div>
+      <h1 class="title">株洲商务局报表管理后台</h1>
+      <el-form autoComplete="on" label-position="top" :model="loginForm" :rules="loginRules" ref="loginForm">
+        <el-form-item label="用户名" prop="username">
+          <el-input name="text" type="text" @keyup.enter.native="handleLogin" :maxlength="20"
+                    v-model="loginForm.username" autoComplete="on" placeholder="账号"> </el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input name="password" type="password" @keyup.enter.native="handleLogin" :maxlength="20"
+                    v-model="loginForm.password" autoComplete="on" placeholder="密码"> </el-input>
+        </el-form-item>
+        <el-form-item label="图形验证码" prop="validCode" class="codeInput">
+          <el-input style="width:220px;" name="validCode" type="text" @keyup.enter.native="handleLogin"
+                    :maxlength="20" v-model="loginForm.validCode" autoComplete="on" placeholder="请输入验证码"> </el-input>
+          <img class="codeImg" :src="loginForm.codePicUrl"  alt="验证码" @click="getVerifyCode"> <!-- :src="loginForm.codePicUrl"-->
+        </el-form-item>
+        <el-form-item>
+          <el-button style="width:320px;margin-top:30px;" type="primary" @click="handleLogin">
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
     </div>
   </div>
 </template>
@@ -149,42 +147,55 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .home-background {
-    background:url("./assets/background.png") no-repeat;
-    height:100vh;
+<style scoped rel="stylesheet/scss" lang="scss">
+  @import '~@/styles/common.scss';
+  .loginWrap {
+    height:100%;
     width:100%;
-    background-size: auto;
-    min-width:1200px;
-    position:absolute;
+    min-height: 100vh;
+    min-width: 100vw;
+    background:url("./assets/background.png") no-repeat right center;
+    background-size: auto 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
   .main{
     width:450px;
-    position:relative;
-    top:300px;
-    right:-1200px;
-  }
-  .main p{
-    font-size: 16px;
-    color: rgba(102, 102, 102, 0.8);
-  }
-  .main-title {
-    width:400px;
-    height: 50px;
-    font-size: 36px;
-    color: #000000;
+    margin-right: 200px;
+    .title{
+      font-size: 32px;
+      line-height: 50px;
+      color: #000;
+      font-weight: normal;
+    }
+    .el-form{
+      width: 322px;
+      .el-form-item__label{
+        margin-bottom: 0;
+      }
+    }
+    .codeImg{
+      background: #ccc;
+      width: 90px;
+      height: auto;
+      max-height: 40px;
+      vertical-align: top;
+      cursor: pointer;
+    }
   }
 </style>
 
-<style>
-  .input-width .el-input {
-    width:320px;
-  }
-  .vaild-code-img {
-    width: 90px;
-    height: 40px;
-    vertical-align: middle;
-    background:url("./assets/test.png")
+<style rel="stylesheet/scss" lang="scss">
+  .loginWrap{
+    .el-form-item__label{
+      padding: 0;
+      font-size: 16px;
+      color: rgba(102, 102, 102, 0.8);
+      &:before{
+        content: '' !important;
+      }
+    }
   }
 </style>
 <!--

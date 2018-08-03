@@ -135,6 +135,7 @@ export default {
     position: absolute;
     right: 4px;
     top: 3px;
+    line-height: 30px;
     /*z-index: 2005;*/
   }
   .editor-upload-btn {

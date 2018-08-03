@@ -2,13 +2,16 @@
   <div class="sideMenuWrap" v-if="menuList && menuList.length">
     <el-menu
       :default-active="$route.path"
+      background-color="#3d4762"
+      text-color="#ccc"
+      active-text-color="#5399f7"
       :default-openeds="currentOpen"
       class="menuBox">
       <template v-for="(firstItem, index) in menuList" >
         <router-link v-if="firstItem.noDropDown" :key="index" :to="firstItem.redirect">
-          <el-menu-item :index="firstItem.redirect" :class="{'is-active' : isActiveFirst(firstItem)}">
+          <el-menu-item :index="firstItem.redirect" class="el-submenu-title" :class="{'is-active' : isActiveFirst(firstItem)}">
             <div class="titleBox">
-              <i class="icon" :class="firstItem.meta.icon ? firstItem.meta.icon : 'el-icon-star-off'"></i>
+              <!--<i class="icon" :class="firstItem.meta.icon ? firstItem.meta.icon : 'el-icon-star-off'"></i>-->
               <span class="titleTop">{{firstItem.name}}</span>
             </div>
           </el-menu-item>
@@ -16,7 +19,7 @@
         <el-submenu v-else :key="index" :index="String(index)">
           <template slot="title">
             <div class="titleBox">
-              <i class="icon" :class="firstItem.meta.icon ? firstItem.meta.icon : 'el-icon-star-off'"></i>
+              <!--<i class="icon" :class="firstItem.meta.icon ? firstItem.meta.icon : 'el-icon-star-off'"></i>-->
               <span class="titleTop">{{firstItem.name}}</span>
             </div>
           </template>
@@ -89,18 +92,18 @@ export default {
 <style lang="scss" scoped rel="stylesheet/scss">
   @import '~@/styles/common.scss';
   .sideMenuWrap{
-    flex: 0 0 250px;
+    flex: 0 0 180px;
     background: $module-color;
     overflow: hidden;
   }
   .menuBox{
-    height: calc( 100vh - 60px );
+    height: calc( 100vh - 80px );
     overflow-y: auto;
     border: none;
     .titleBox{
-      margin: 0 10px;
+      margin: 0 10px 0 30px;
       height: 50px;
-      border-top: 1px solid $border-base;
+      /*border-top: 1px solid $border-base;*/
       line-height: 50px;
     }
     .icon{
@@ -111,23 +114,31 @@ export default {
     .el-menu-item{
       min-width: auto;
       height: 50px;
+      background: #323a56 !important;
       &.is-active{
-        border-right: 3px solid $color-primary;
-        background: $table-background;
+        color: #5399f7 !important;
+        /*border-right: 3px solid $color-primary;*/
+        /*background: #323a56 !important;*/
       }
+      &:hover{
+        background: #31394e !important;
+      }
+    }
+    .el-submenu-title{
+      background: #3d4762 !important;
     }
     .el-submenu{
       .el-menu-item{
-        padding-left: 64px !important;
+        padding-left: 50px !important;
       }
       .el-icon-arrow-down{
         font-size: 16px;
       }
-      &.is-opened {
+      /*&.is-opened {
         .titleBox{
           border-bottom: 1px solid $border-base;
         }
-      }
+      }*/
     }
   }
 
