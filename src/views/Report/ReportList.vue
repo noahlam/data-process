@@ -22,33 +22,19 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-button type="primary">搜索</el-button>
+      <el-button type="primary" @click="searchReportCharts">搜索</el-button>
       <el-button>清空</el-button>
     </div>
-    <router-link to="/reportForm/reportFormListWrite">
+    <router-link to="/reportForm/reportEdit">
       <el-button class="addButton" type="primary" style="width:150px;" icon="el-icon-plus">新增报表</el-button>
     </router-link>
-    <el-table
-      :data="tableData"
-      style="width: 100%">
-      <el-table-column
-        prop="date"
-        label="编号"
-        width="180"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="报表类型"
-        width="180"
-        align="center">
-      </el-table-column>
-      <el-table-column
-        label="操作"
-        align="center">
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="date" label="编号" width="180" align="center"></el-table-column>
+      <el-table-column prop="name" label="报表类型" width="180" align="center"></el-table-column>
+      <el-table-column label="操作" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="small">编辑</el-button>
-          <el-button type="danger"  size="small">删除</el-button>
+          <el-button type="primary" size="small" @click="editReportChart(scope.row)">编辑</el-button>
+          <el-button type="danger"  size="small" @click="deleteReportChart(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -95,6 +81,22 @@ export default {
         name: '王小虎'
       }]
     }
+  },
+  methods: {
+    // 搜索报表
+    searchReportCharts () {},
+    // 清空搜索条件
+    chearSearchConditions () {},
+    // 删除报表
+    deleteReportChart (item) {
+      console.log(item)
+    },
+    // 编辑报表
+    editReportChart (item) {
+      console.log(item)
+    }
+  },
+  created () {
   }
 }
 </script>

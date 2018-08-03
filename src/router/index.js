@@ -7,11 +7,11 @@ import Login from '@/views/Login/LoginIndex'
 import Home from '@/views/Home/HomeIndex'
 
 // 报表类型
-import reportFormType from '@/views/ReportForm/ReportFormType'
+import reportType from '@/views/Report/ReportType'
 // 报表列表
-import reportFormList from '@/views/ReportForm/ReportFormList'
+import ReportList from '@/views/Report/ReportList'
 // 报表列表-报表填写
-import reportFormListWrite from '@/views/ReportForm/ReportFormListWrite'
+import ReportEdit from '@/views/Report/ReportEdit'
 // 用户列表
 import userList from '@/views/UserList/UserList'
 import userSetting from '@/views/UserList/UserSetting'
@@ -36,9 +36,9 @@ export const constantRouterMap = [
     redirect: '/index',
     name: 'Home',
     children: [{path: 'index', component: Home},
-      {path: '/reportForm/reportFormType', component: reportFormType},
-      {path: '/reportForm/reportFormList', component: reportFormList},
-      {path: '/reportForm/reportFormListWrite', component: reportFormListWrite},
+      {path: '/reportForm/reportType', component: reportType},
+      {path: '/reportForm/ReportList', component: ReportList},
+      {path: '/reportForm/ReportEdit', component: ReportEdit},
       {path: '/userList/userSetting', component: userSetting},
       {path: '/platformConfig/articleList', component: articleList},
       {path: '/platformConfig/articleContent', component: articleContent},
@@ -64,19 +64,19 @@ export const asyncRouterMap = [
     path: '/',
     name: '报表',
     component: Layout,
-    meta: {menuId: 'ReportForm', icon: 'xxx'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
+    meta: {menuId: 'Report', icon: 'xxx'}, // 因为icon有默认值，所以设置一个不存在的标签隐藏
     children: [
       {
-        path: 'ReportForm',
+        path: 'Report',
         name: '报表类型',
-        component: reportFormType,
-        meta: {menuId: '/reportForm/reportFormType'}
+        component: reportType,
+        meta: {menuId: '/reportForm/reportType'}
       },
       {
-        path: 'ReportForm',
+        path: 'Report',
         name: '报表列表',
-        component: reportFormList,
-        meta: {menuId: '/reportForm/reportFormList'}
+        component: ReportList,
+        meta: {menuId: '/reportForm/ReportList'}
       }
     ]
   },
