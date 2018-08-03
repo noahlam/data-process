@@ -13,15 +13,15 @@ import ReportList from '@/views/Report/ReportList'
 // 报表列表-报表填写
 import ReportEdit from '@/views/Report/ReportEdit'
 // 用户列表
-import userList from '@/views/UserList/UserList'
-import userSetting from '@/views/UserList/UserSetting'
+import UserList from '@/views/UserList/UserList'
+import UserSetting from '@/views/UserList/UserSetting'
 
 // 文章列表
-import articleList from '@/views/PlatformConfig/ArticleList'
-import articleContent from '@/views/PlatformConfig/ArticleContent/ArticleContent'
-import bannerSetting from '@/views/PlatformConfig/BannerSetting/BannerSetting'
+import ArticleList from '@/views/PlatformConfig/ArticleList'
+import ArticleContent from '@/views/PlatformConfig/ArticleContent/ArticleContent'
+import BannerSetting from '@/views/PlatformConfig/BannerSetting/BannerSetting'
 
-import operationLog from '@/views/SystemSetting/OperationLog'
+import OperationLog from '@/views/SystemSetting/OperationLog'
 
 /* error page */
 import Err404 from '@/views/404'
@@ -39,22 +39,6 @@ export const constantRouterMap = [
     children: [{path: 'index', component: Home}]
   },
   {path: '*', component: Err404}
-  // {
-  //   path: '/',
-  //   component: Layout,
-  //   redirect: '/index',
-  //   name: 'Home',
-  //   children: [{path: 'index', component: Home},
-  //     {path: '/reportForm/reportFormType', component: reportFormType},
-  //     {path: '/reportForm/reportFormList', component: reportFormList},
-  //     {path: '/reportForm/reportFormListWrite', component: reportFormListWrite},
-  //     {path: '/userList/userSetting', component: userSetting},
-  //     {path: '/platformConfig/articleList', component: articleList},
-  //     {path: '/platformConfig/articleContent', component: articleContent},
-  //     {path: '/platformConfig/bannerSetting', component: bannerSetting},
-  //     {path: '/SystemSetting/operationLog', component: operationLog},
-  //   ]
-  // }
 ]
 /**
  *  asyncRouterMap 用于做权限控制，以及对应菜单的生成
@@ -105,13 +89,13 @@ export const asyncRouterMap = [
       {
         path: 'userList',
         name: '用户列表-列表',
-        component: userList,
+        component: UserList,
         meta: {menuId: '/user/userList'}
       },
       {
         path: 'userSetting',
         name: '用户列表-详情',
-        component: userSetting,
+        component: UserSetting,
         meta: {menuId: '/user/userSetting'}
       }
     ]
@@ -125,20 +109,20 @@ export const asyncRouterMap = [
       {
         path: 'articleList',
         name: '文章列表',
-        component: articleList,
+        component: ArticleList,
         meta: {menuId: '/platformConfig/articleList', childrenList: ['/platformConfig/articleContent']}
       },
       {
         path: 'articleContent',
         name: '文章内容',
-        component: articleContent,
+        component: ArticleContent,
         hidden: true,
         meta: {menuId: '/platformConfig/articleContent'}
       },
       {
         path: 'bannerSetting',
         name: 'Banner',
-        component: bannerSetting,
+        component: BannerSetting,
         meta: {menuId: '/platformConfig/bannerSetting'}
       }
     ]
@@ -152,7 +136,7 @@ export const asyncRouterMap = [
       {
         path: 'operationLog',
         name: '操作日志',
-        component: operationLog,
+        component: OperationLog,
         meta: {menuId: '/systemSetting/operationLog'}
       }
     ]
@@ -162,5 +146,5 @@ export const asyncRouterMap = [
 export default new Router({
   // mode: 'history',
   scrollBehavior: () => ({y: 0}),
-  routes: constantRouterMap
+  routes: constantRouterMap.concat(asyncRouterMap)
 })

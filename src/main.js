@@ -29,20 +29,7 @@ router.beforeEach(async (to, from, next) => {
     if (to.path === '/login') {
       next({path: '/'})
     } else {
-      if (!store.getters.userInfo.username || store.getters.userInfo.username.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        await store.dispatch('GetInfo')
-        // if (parseInt(res.code) === 1) {
-        const roles = '系统管理员'
-        const menuList = []
-        await store.dispatch('GenerateRoutes', {roles, menuList})
-        router.addRoutes(store.getters.addRouters)
-        next({...to, replace: true})
-        // } else {
-        //   NProgress.done()
-        // }
-      } else {
-        next()
-      }
+      next()
     }
   } else {
     if (whiteList.indexOf(to.path) !== -1) {

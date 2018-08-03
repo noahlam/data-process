@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { asyncRouterMap } from '@/router/index'
 export default {
   name: 'side-bar',
   data () {
@@ -44,7 +45,7 @@ export default {
   },
   computed: {
     menuList () {
-      return this.$store.getters.addRouters
+      return asyncRouterMap
       // return []
     },
     currentOpen () {
