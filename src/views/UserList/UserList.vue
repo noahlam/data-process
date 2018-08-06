@@ -7,17 +7,17 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="用户ID" >
-            <el-input v-model="formData.pageId" :maxlength="10" @keyup.enter.native="toSearch"> </el-input>
+            <el-input v-model="formData.memberId" :maxlength="10" @keyup.enter.native="toSearch"> </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="手机号" >
-            <el-input v-model="formData.name" :maxlength="50" @keyup.enter.native="toSearch"> </el-input>
+            <el-input v-model="formData.mobile" :maxlength="20" @keyup.enter.native="toSearch"> </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="姓名" >
-            <el-input v-model="formData.name" :maxlength="50" @keyup.enter.native="toSearch"> </el-input>
+            <el-input v-model="formData.name" :maxlength="20" @keyup.enter.native="toSearch"> </el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -29,25 +29,35 @@
       </el-row>
     </el-form>
     <el-row class="mainBtn">
-      <el-button class="v-button" icon="el-icon-close" type="danger">批量删除</el-button>
+      <el-button class="v-button" icon="el-icon-close" type="danger" @click="toAudit">批量删除</el-button>
     </el-row>
     <el-table :data="listData" v-loading="mainLoading" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column align="center" type="selection" width="55"> </el-table-column>
-      <el-table-column align="center" prop="page_id" label="用户ID" width="120px"> </el-table-column>
-      <el-table-column align="center" prop="name" label="手机号"> </el-table-column>
+      <el-table-column align="center" prop="memberId" label="用户ID" width="120px"> </el-table-column>
+      <el-table-column align="center" prop="mobile" label="手机号"> </el-table-column>
       <el-table-column align="center" prop="name" label="姓名"> </el-table-column>
-      <el-table-column align="center" prop="name" label="昵称"> </el-table-column>
-      <el-table-column align="center" prop="name" label="性别"> </el-table-column>
-      <el-table-column align="center" prop="name" label="部门"> </el-table-column>
+      <el-table-column align="center" prop="nickname" label="昵称"> </el-table-column>
+      <el-table-column align="center" prop="sex" label="性别">
+        <template slot-scope="scope">
+          <!--0:保密;1:男;2:女-->
+          <span v-if="scope.row.sex === 1">男</span>
+          <span v-else-if="scope.row.sex === 2">女</span>
+          <span v-else>保密</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="departmentName" label="部门"> </el-table-column>
 
       <el-table-column align="center" prop="date" label="状态" width="120px">
         <template slot-scope="scope">
-          <span>待审核</span>
+          <!-- 0:未审核;1:审核通过;2:审核拒绝 -->
+          <span v-if="scope.row.examineStatus === 1">已通过</span>
+          <el-button v-else-if="scope.row.examineStatus === 0" type="text" @click="toAudit(scope.row.memberId)">待审核</el-button>
+          <el-button v-else-if="scope.row.examineStatus === 2" type="text" @click="toAudit(scope.row.memberId)">未通过</el-button>
         </template>
       </el-table-column>
       <el-table-column align="center" prop="date" label="操作" width="150px">
         <template slot-scope="scope">
-          <router-link :to="`/user/userSetting`"><el-button size="small" type="primary" plain>查看</el-button></router-link>
+          <router-link :to="`/user/userSetting?memberId=${scope.row.memberId}`"><el-button size="small" type="primary" plain>查看</el-button></router-link>
           <el-button size="small" type="danger" plain>删除</el-button>
         </template>
       </el-table-column>
@@ -58,17 +68,83 @@
 export default{
   data () {
     return {
-      formData: {},
+      formData: {
+        memberId: '',
+        mobile: '',
+        name: ''
+      },
       listData: [{}],
       multiSelectList: [], // 多选
       mainLoading: false
     }
   },
+  created () {
+    this.getList()
+  },
   methods: {
-    toSearch () {},
-    toClear () {},
+    async getList () {
+      let reqData = {
+        currentPage: 1,
+        showCount: 10000
+      }
+      reqData = Object.assign({}, reqData, this.formData)
+      let res = await this.$post('admin/member/list.do', reqData)
+      if (parseInt(res.code) === 1) {
+        this.listData = res.data.memberArray || []
+      } else {
+        this.$message.error(res.message)
+      }
+    },
+    toSearch () {
+      this.getList()
+    },
+    toClear () {
+      this.formData = {
+        memberId: '',
+        mobile: '',
+        name: ''
+      }
+      this.getList()
+    },
     handleSelectionChange (val) {
       this.multiSelectList = val
+    },
+    // 去审核
+    toAudit (memberId) {
+      this.$confirm('该用户是否审核通过？', '提示', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '通过',
+        cancelButtonText: '不通过',
+        type: 'warning',
+        beforeClose: async (action, instance, done) => {
+          console.log(action, instance)
+          if (action === 'confirm' || action === 'cancel') {
+            //   instance.confirmButtonLoading = true
+            //   instance.confirmButtonText = '执行中...'
+            //   let memberIdArray = []
+            //   memberIdArray.push({
+            //     memberId
+            //   })
+            //   let res = await this.$post('admin/reportFormType/delete.do', {memberIdArray: JSON.stringify(memberIdArray)})
+            //   instance.confirmButtonLoading = false
+            //   instance.confirmButtonText = '确定'
+            //   if (parseInt(res.code) === 1) {
+            //     this.$message.success('删除成功')
+            //     this.getList()
+            //   } else {
+            //     this.$message.error(res.message)
+            //   }
+            //   done()
+            // } else {
+            //   done()
+            // }
+          }
+        }
+      }).then(() => {
+        return true
+      }).catch(() => {
+        return false
+      })
     }
   }
 }

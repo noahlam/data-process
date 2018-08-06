@@ -3,29 +3,29 @@
     <h2>数据统计</h2>
     <el-row class="contentWrap" type="flex"  justify="space-between">
       <el-col :span="7">
-        <router-link to="/" class="item newUser">
+        <router-link to="/" class="item reportType">
           <div class="imgBox"></div>
           <div class="content">
             <p>报表类型</p>
-            <strong>{{dataObj.memberCount || 0}}</strong>
+            <strong>{{dataObj.reportFormTypeNum || 0}}</strong>
           </div>
         </router-link>
       </el-col>
       <el-col :span="7">
-        <router-link to="/" class="item newDevice">
+        <router-link to="/" class="item reportNum">
           <div class="imgBox"></div>
           <div class="content">
             <p>报表数</p>
-            <strong>{{dataObj.deviceCount || 0}}</strong>
+            <strong>{{dataObj.reportFormNum || 0}}</strong>
           </div>
         </router-link>
       </el-col>
       <el-col :span="7">
-        <router-link to="/" class="item newProject">
+        <router-link to="/" class="item reportUser">
           <div class="imgBox"></div>
           <div class="content">
             <p>已授权用户数</p>
-            <strong>{{dataObj.projectCount || 0}}</strong>
+            <strong>{{dataObj.authMemberNum || 0}}</strong>
           </div>
         </router-link>
       </el-col>
@@ -43,13 +43,13 @@ export default {
     }
   },
   created () {
-    // this.getData()
+    this.getData()
   },
   methods: {
     async getData () {
-      let res = await this.$post('admin/mobileUser/getIndex.do', {})
+      let res = await this.$post('admin/index.do', {})
       if (parseInt(res.code) === 1) {
-        this.num = res.toDaySendTemplateSmsNum
+        this.dataObj = res.data
       } else {
         this.$message.error(res.message)
       }
@@ -75,6 +75,7 @@ export default {
   }
   .contentWrap{
     margin-top: 10px;
+    max-width: 1100px;
     .item{
       display: flex;
       align-items: center;
@@ -93,7 +94,9 @@ export default {
         border-radius: 50%;
         overflow: hidden;
         border: 4px solid $border-base;
-        background-size: contain;
+        background-size: 44px;
+        background-position: center;
+        background-repeat: no-repeat;
       }
       .content{
         flex: 1;
@@ -105,6 +108,33 @@ export default {
         strong{
           font-size: 28px;
           color: $text-second;
+        }
+      }
+      &.reportType{
+        .imgBox{
+          background-color: #FF8D63;
+          background-image: url("./assets/type.png");
+        }
+        strong{
+          color: #FF8D63;
+        }
+      }
+      &.reportNum{
+        .imgBox{
+          background-color: #80C2EF;
+          background-image: url("./assets/reportNum.png");
+        }
+        strong{
+          color: #80C2EF;
+        }
+      }
+      &.reportUser{
+        .imgBox{
+          background-color: #B29ED7;
+          background-image: url("./assets/user.png");
+        }
+        strong{
+          color: #B29ED7;
         }
       }
     }

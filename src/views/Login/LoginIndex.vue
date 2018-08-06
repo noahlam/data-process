@@ -62,7 +62,7 @@ export default {
   methods: {
     async getVerifyCode () {
       this.loginForm.validToken = new Date().getTime()
-      let res = await this.$post('common/mobileCommon/getValidateCode.do', {validToken: this.loginForm.validToken})
+      let res = await this.$post('common/getValidateCode.do', {validToken: this.loginForm.validToken})
       if (parseInt(res.code) === 1) {
         this.loginForm.codePicUrl = res.data.base64Img
       } else {
@@ -93,7 +93,7 @@ export default {
           console.log(res)
           if (parseInt(res.code) === 1) {
             // 下面是保存token信息
-            this.$store.dispatch('SetTokenInfo', res)
+            this.$store.dispatch('SetTokenInfo', res.data)
             // if (this.loginForm.rememberPas) { // 记住密码
             //   let userLoginInfo = {
             //     username: encodeURI(this.loginForm.username),
@@ -155,20 +155,20 @@ export default {
       cursor: pointer;
     }
   }
-  @media screen and (min-width: 1251px) and (max-width: 1520px ){
+  @media screen and (min-width: 1521px){
     .loginWrap {
       background-position: left center;
     }
     .main{
-      margin-left: 900px ;
+      margin-left: 1100px;
     }
   }
   @media screen and (max-width: 1250px) {
     .loginWrap {
-      background-position: -50px center;
+      background-position: -120px center;
     }
     .main{
-      margin-left: 800px ;
+      margin-left: 780px ;
     }
   }
 </style>

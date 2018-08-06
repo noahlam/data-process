@@ -118,15 +118,12 @@ export default {
       this.$refs.ruleForm.validate(async valid => {
         if (valid) {
           this.saveLoading = true
-          let res = await this.$post('user/editPassword.do', this.formData)
+          let res = await this.$post('admin/user/editPwd.do', this.formData)
           this.saveLoading = false
           if (parseInt(res.code) === 1) {
             this.$message.success('修改成功')
             setTimeout(async () => {
-              let res = await this.$store.dispatch('FedLogOut')
-              if (parseInt(res.code) === 1) {
-                location.reload()
-              }
+              this.toLogout()
             }, 1500)
           } else {
             this.$message.error(res.message)
@@ -137,7 +134,7 @@ export default {
       })
     },
     // 退出登录
-    async toLogout () {
+    toLogout () {
       this.$store.dispatch('ClearLogout')
       location.reload()
     }

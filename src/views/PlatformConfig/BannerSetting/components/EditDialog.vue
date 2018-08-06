@@ -1,5 +1,5 @@
 <template>
-  <el-dialog class="bannerEditWrap" center title="编辑" v-if="value" :visible="value" width="600px" @close="beforeClose"  :close-on-click-modal="false">
+  <el-dialog class="bannerEditWrap" center title="编辑" v-if="value" :visible="value" width="600px" :before-close="beforeClose"  :close-on-click-modal="false">
     <el-form :model="formData" :rules="formRules" label-width="120px" class="v-form" @submit.native.prevent>
       <el-form-item label="图片" prop="image">
         <el-upload class="uploadWrap" :data="uploadReqData" :disabled="uploading" :show-file-list="false"
