@@ -16,7 +16,8 @@ const LoginStore = {
     SetTokenInfo ({commit}, data) {
       let userTokenInfo = {
         userId: data.userId,
-        token: data.token
+        token: data.token,
+        username: data.username
       }
       setToken(JSON.stringify(userTokenInfo))
       commit('SET_USERINFO', userTokenInfo)

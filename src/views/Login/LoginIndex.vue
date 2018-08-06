@@ -1,36 +1,5 @@
 <template>
   <div class="loginWrap">
-  <!--    <section>
-      <div class="box">
-        <div class="rightPart">
-          <h2>用户登录</h2>
-          <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
-                   class="card-box login-form">
-            <el-form-item prop="username">
-              <el-input name="text" type="text" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.username" autoComplete="on"
-                        placeholder="账号"> </el-input>
-            </el-form-item>
-            <el-form-item prop="password">
-              <el-input name="password" type="password" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.password" autoComplete="on" placeholder="密码"> </el-input>
-            </el-form-item>
-            <el-form-item prop="validCode" class="codeBox">
-              <el-input name="validCode" type="text" @keyup.enter.native="handleLogin" :maxlength="20" v-model="loginForm.validCode" autoComplete="on" class="codeInput" placeholder="请输入验证码"> </el-input>
-              <img :src="loginForm.codePicUrl" alt="图形验证码" @click="getVerifyCode">
-              <el-button type="text" @click="getVerifyCode">换一张</el-button>
-            </el-form-item>
-            <el-form-item class="checkBox">
-              <el-checkbox v-model="loginForm.rememberPas">记住密码</el-checkbox>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" class="loginBtn" :loading="loading" @click.native.prevent="handleLogin">
-                登 录
-              </el-button>
-            </el-form-item>
-          </el-form>
-
-        </div>
-      </div>
-      </section>-->
     <div class="main">
       <h1 class="title">株洲商务局报表管理后台</h1>
       <el-form autoComplete="on" label-position="top" :model="loginForm" :rules="loginRules" ref="loginForm">
@@ -67,8 +36,8 @@ export default {
         password: '',
         validCode: '',
         codePicUrl: '',
-        validToken: null,
-        rememberPas: false
+        validToken: null
+        // rememberPas: false
       },
       loginRules: {
         username: [
@@ -78,16 +47,17 @@ export default {
           {required: true, trigger: 'blur', message: '请输入密码'}
         ],
         validCode: [
-          {required: true, trigger: 'blur', message: '请输入验证码'}
+          {required: true, trigger: 'blur', message: '请输入图形验证码'}
         ]
       },
       loading: false
     }
   },
   created () {
+    this.getVerifyCode()
   },
   mounted () {
-    this.getUserInfo()
+    // this.getUserInfo()
   },
   methods: {
     async getVerifyCode () {
@@ -99,14 +69,14 @@ export default {
         this.$message.error(res.message)
       }
     },
-    getUserInfo () { // 获得之前记住密码保存的账号信息
-      let userLoginInfo = localStorage.getItem('userLoginInfo')
-      if (userLoginInfo && userLoginInfo.length > 10) {
-        userLoginInfo = JSON.parse(userLoginInfo)
-        this.loginForm.username = decodeURI(userLoginInfo.username)
-        this.loginForm.password = decodeURI(userLoginInfo.password)
-      }
-    },
+    // getUserInfo () { // 获得之前记住密码保存的账号信息
+    //   let userLoginInfo = localStorage.getItem('userLoginInfo')
+    //   if (userLoginInfo && userLoginInfo.length > 10) {
+    //     userLoginInfo = JSON.parse(userLoginInfo)
+    //     this.loginForm.username = decodeURI(userLoginInfo.username)
+    //     this.loginForm.password = decodeURI(userLoginInfo.password)
+    //   }
+    // },
     handleLogin () {
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
@@ -114,29 +84,29 @@ export default {
 
           let reqData = {
             username: this.loginForm.username,
-            password: this.loginForm.password
-            // validCode: this.loginForm.validCode,
-            // validToken: this.loginForm.validToken
+            password: this.loginForm.password,
+            validCode: this.loginForm.validCode,
+            validToken: this.loginForm.validToken
           }
-          let res = await this.$post('admin/mobileUser/login.do', reqData)
+          let res = await this.$post('admin/user/login.do', reqData)
           this.loading = false
           console.log(res)
           if (parseInt(res.code) === 1) {
-            this.$store.dispatch('SetTokenInfo', res)
-            if (this.loginForm.rememberPas) { // 记住密码
-              let userLoginInfo = {
-                username: encodeURI(this.loginForm.username),
-                password: encodeURI(this.loginForm.password)
-              }
-              localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo))
-            } else {
-              localStorage.removeItem('userLoginInfo')
-            }
-            this.$router.push('/')
             // 下面是保存token信息
+            this.$store.dispatch('SetTokenInfo', res)
+            // if (this.loginForm.rememberPas) { // 记住密码
+            //   let userLoginInfo = {
+            //     username: encodeURI(this.loginForm.username),
+            //     password: encodeURI(this.loginForm.password)
+            //   }
+            //   localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo))
+            // } else {
+            //   localStorage.removeItem('userLoginInfo')
+            // }
+            this.$router.push('/')
           } else {
-            // this.getVerifyCode()
-            // this.loginForm.validCode = ''
+            this.getVerifyCode()
+            this.loginForm.validCode = ''
             this.$message.error(res.message)
           }
         } else {
@@ -154,15 +124,16 @@ export default {
     width:100%;
     min-height: 100vh;
     min-width: 100vw;
-    background:url("./assets/background.png") no-repeat right center;
+    background: #fff url("./assets/bg.png") no-repeat left center;
     background-size: auto 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    /*justify-content: flex-end;*/
   }
   .main{
     width:450px;
-    margin-right: 200px;
+    margin-left: 900px;
+    /*margin-right: 300px;*/
     .title{
       font-size: 32px;
       line-height: 50px;
@@ -176,12 +147,28 @@ export default {
       }
     }
     .codeImg{
-      background: #ccc;
+      /*background: #ccc;*/
       width: 90px;
       height: auto;
       max-height: 40px;
       vertical-align: top;
       cursor: pointer;
+    }
+  }
+  @media screen and (min-width: 1251px) and (max-width: 1520px ){
+    .loginWrap {
+      background-position: left center;
+    }
+    .main{
+      margin-left: 900px ;
+    }
+  }
+  @media screen and (max-width: 1250px) {
+    .loginWrap {
+      background-position: -50px center;
+    }
+    .main{
+      margin-left: 800px ;
     }
   }
 </style>
