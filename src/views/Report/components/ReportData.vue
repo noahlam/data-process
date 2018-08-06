@@ -1,24 +1,17 @@
 <template>
   <div class="wrap">
 
-    <el-button type="primary">
-      <i class="el-icon-upload2 icon"></i>Excel导入
-    </el-button>
+    <div class="upload">
+      <input type="file" class="fileSelect" value="111" @change="importData" ref="file">
+      <!--<div class="uploadButton">-->
+        <!--<i class="el-icon-upload2 icon"></i>Excel导入-->
+      <!--</div>-->
 
-    <div class="mtb20">表格数据</div>
+    </div>
 
-    <el-table :data="tableData" style="width: 100%; margin: 20px 0;">
-      <el-table-column prop="date" label="编号" width="180" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="报表类型" width="180" align="center">
-      </el-table-column>
-      <el-table-column label="操作" align="center">
-        <template slot-scope="scope">
-          <el-button type="primary" size="small">编辑</el-button>
-          <el-button type="danger"  size="small">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="mtb20" v-if="showTable">表格数据</div>
+
+    <HotTable :settings="settings" v-if="showTable"></HotTable>
 
     <div class="mtb20">
       <el-button type="primary" @click="gotoNext">下一步</el-button>
@@ -28,9 +21,57 @@
   </div>
 </template>
 <script>
+import HotTable from '@handsontable/vue'
+import XLSX from 'xlsx'
+import 'handsontable/languages/zh-CN'
 export default {
+  components: {HotTable},
   data () {
-    return {}
+    return {
+      showTable: false,
+      settings: {
+        data: [],
+        language: 'zh-CN',
+        autoWrapRow: true,
+        mergeCells: true,
+        minRows: 1,
+        manualColumnResize: true,
+        manualRowResize: true,
+        manualColumnMove: true,
+        manualRowMove: true,
+        rowHeaders: true,
+        contextMenu: true,
+        colHeaders: true
+      }
+    }
+  },
+  methods: {
+    // 下一步
+    gotoNext () {},
+    // 取消
+    onCancel () {
+      this.$confirm('确定要放弃保存吗?', '提示').then(() => {
+        history.back()
+      }).catch(() => {})
+    },
+    importData () {
+      alert('111')
+      let that = this
+      let f = this.$refs['file'].files[0]
+      var reader = new FileReader()
+      reader.onload = function (e) {
+        var data = e.target.result
+        let res = XLSX.read(data, {type: 'binary'})
+        let sheetName = res.Sheets[res.SheetNames[0]]
+        let table = XLSX.utils.sheet_to_json(sheetName, {header: 1, raw: true})
+        that.settings.data = table
+        console.log(table)
+        that.$nextTick(_ => {
+          that.showTable = true
+        })
+      }
+      reader.readAsBinaryString(f)
+    }
   }
 }
 </script>
@@ -38,4 +79,26 @@ export default {
 <style lang="scss" scoped rel="stylesheet/scss">
   .w400 {width: 400px;}
   .mtb20 {margin: 20px 0;}
+  .upload{
+    position: relative;
+    width: 118px;
+    height: 40px;
+    overflow: hidden;
+  }
+  .fileSelect {
+    width: 118px;
+    height: 40px;
+    opacity: 1;
+  }
+  .fileSelect::after{
+    content:'';
+  }
+  .uploadButton{
+    width: 118px;
+    height: 40px;
+    background: #f00;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 </style>

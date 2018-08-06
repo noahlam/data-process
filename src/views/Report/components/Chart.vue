@@ -1,13 +1,13 @@
 <template>
   <div class="wrap">
-    <el-form :model="data" :rules="rules" ref="ruleForm" label-width="100px" style="width: 420px;">
+    <el-form :model="data" :rules="rules" ref="ruleForm" label-width="100px" class="form">
 
       <el-form-item label="图表名称" prop="name">
         <el-input v-model="data.name" class="w320"></el-input>
       </el-form-item>
 
       <el-form-item label="图表选择" prop="type">
-        <el-select v-model="value4" clearable placeholder="请选择"  class="w320">
+        <el-select v-model="data.value4" clearable placeholder="请选择"  class="w320">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -32,8 +32,8 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onReview">预览</el-button>
-        <el-button @click="onDelete">删除</el-button>
+        <el-button size="small" @click="onReview"  type="primary">预览</el-button>
+        <el-button size="small" @click="onDelete">删除</el-button>
       </el-form-item>
     </el-form>
     <div class="chart"></div>
@@ -49,14 +49,6 @@ export default {
         {value: '选项3', label: '蚵仔煎'},
         {value: '选项4', label: '龙须面'},
         {value: '选项5', label: '北京烤鸭'}],
-      data: {
-        value4: '',
-        name: '',
-        subTitle: '',
-        unit: '',
-        remark: '',
-        textarea: ''
-      },
       rules: {
         name: [
           { required: true, message: '请输入报表名称', trigger: 'blur' }
@@ -67,11 +59,19 @@ export default {
       }
     }
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => {}
+    }
+  },
   methods: {
     // 预览
     onReview () {},
     // 删除
-    onDelete () {}
+    onDelete () {
+      this.$emit('delete', this.data)
+    }
   }
 }
 </script>
@@ -80,7 +80,16 @@ export default {
   .w320 {width: 312px;}
   .w150{width: 150px;}
   .mtb20 {margin: 20px 0;}
-  .wrap{display: flex;}
+  .wrap{
+    display: flex;
+    border-top:1px solid #f5f5f5;
+    border-bottom:1px solid #f5f5f5;
+    background: #f5f5f5;
+    margin: 5px 0;
+  }
+  .form {
+    padding-top: 20px;
+  }
   .chart{
     width: 400px;
     height: 400px;
