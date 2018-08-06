@@ -16,7 +16,8 @@ const LoginStore = {
     SetTokenInfo ({commit}, data) {
       let userTokenInfo = {
         userId: data.userId,
-        token: data.token
+        token: data.token,
+        username: data.username
       }
       setToken(JSON.stringify(userTokenInfo))
       commit('SET_USERINFO', userTokenInfo)
@@ -27,17 +28,6 @@ const LoginStore = {
         username: '系统管理员'
       }
       commit('SET_USERINFO', userInfo)
-      // let res = await fetch('admin/mobileUserInfo/getInfo.do')
-      // if (parseInt(res.code) === 1) {
-      //   let userInfo = {
-      //     userId: res.userId,
-      //     token: res.token,
-      //     username: res.username
-      //   }
-      //   commit('SET_USERINFO', userInfo)
-      // } else {
-      //   Message.error(res.message || '请求返回结果出错')
-      // }
       return userInfo
     },
     // 前端 登出

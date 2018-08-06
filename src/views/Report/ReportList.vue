@@ -25,7 +25,7 @@
       <el-button type="primary" @click="searchReportCharts">搜索</el-button>
       <el-button>清空</el-button>
     </div>
-    <router-link to="/reportForm/reportEdit">
+    <router-link to="/report/reportEdit">
       <el-button class="addButton" type="primary" style="width:150px;" icon="el-icon-plus">新增报表</el-button>
     </router-link>
     <el-table :data="tableData" style="width: 100%">

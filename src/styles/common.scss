@@ -152,27 +152,6 @@ li{
   margin: 20px 30px;
 }
 
-/* 编辑、删除、上移、下移的icon处理 */
-.v-icon-forth{
-  display: inline-block;
-  font-size: 22px;
-  padding: 0 10px;
-  cursor: pointer;
-  margin: 0;
-  &.v-icon-left{
-    padding-left: 2px;
-    padding-right: 12px;
-  }
-  &.v-icon-right{
-    padding-right: 0;
-    padding-left: 14px;
-  }
-  &.el-empty{
-    display: inline-block;
-    width: 32px;
-  }
-}
-
 .v-blue{
   color: $color-primary !important;
 }
