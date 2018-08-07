@@ -10,11 +10,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped rel="stylesheet/scss">
-  @import '~@/styles/common.scss';
-</style>
-
 <style lang="scss" rel="stylesheet/scss">
+  @import '~@/styles/common.scss';
+  @import '~@/styles/handsontable.full.scss';
+
   // 输入框 默认填充 颜色修改
   input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill{
     background-color: #fff !important;

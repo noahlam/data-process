@@ -8,7 +8,7 @@
       </el-form-item>
 
       <el-form-item label="报表类型" prop="type">
-        <el-select v-model="value4" clearable placeholder="请选择"  class="w400">
+        <el-select v-model="data.value4" clearable placeholder="请选择"  class="w400">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -71,7 +71,11 @@ export default {
     // 下一步
     gotoNext () {},
     // 取消
-    onCancel () {}
+    onCancel () {
+      this.$confirm('确定要放弃保存吗?', '提示').then(() => {
+        history.back()
+      }).catch(() => {})
+    }
   }
 }
 </script>
