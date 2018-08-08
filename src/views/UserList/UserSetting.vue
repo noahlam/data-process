@@ -98,7 +98,7 @@ export default{
       }).catch(() => {
         return false
       })
-    },
+    }
   }
 }
 </script>

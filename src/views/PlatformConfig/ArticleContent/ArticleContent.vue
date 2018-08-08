@@ -72,6 +72,7 @@ export default{
           articleTitle: this.formData.articleTitle,
           articleImage: this.formData.image,
           articleContent: this.formData.articleContent
+          // articleContent: this.formData.articleContent.replace(/['  ']/g, '&nbsp;')
         }
         let url = 'admin/article/add.do'
         if (this.articleId) {
