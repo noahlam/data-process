@@ -12,7 +12,7 @@
 
     <div class="mtb20" v-if="showTable">表格数据</div>
 
-    <HotTable :settings="settings" v-if="showTable"></HotTable>
+    <HotTable :settings="settings" v-if="showTable" class="tableWrap"></HotTable>
 
     <div :class="{mtb20:!showTable}">
       <el-button type="primary" @click="gotoNext">下一步</el-button>
@@ -70,7 +70,8 @@ export default {
         let sheetName = res.Sheets[res.SheetNames[0]]
         let table = XLSX.utils.sheet_to_json(sheetName, {header: 'A', raw: true, defval: ' '})
         this.settings.data = table
-        this.getAxisData()
+        this.data.reportDataContent = table
+        // this.getAxisData()
       }
       reader.readAsBinaryString(f)
     },
@@ -82,7 +83,6 @@ export default {
       for (let i = 1; i <= this.settings.data.length; i++) {
         this.data.axisYKeys.push(i)
       }
-      // console.log(xs, ys)
     }
   }
 }
@@ -113,5 +113,10 @@ export default {
     height: 40px;
     opacity: 0;
     z-index: 1;
+  }
+  .tableWrap{
+    /*background: #1e6abc;*/
+    height: 500px;
+    overflow: scroll;
   }
 </style>

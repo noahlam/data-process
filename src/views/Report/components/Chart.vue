@@ -20,43 +20,15 @@
       <el-form-item label="数据源" ></el-form-item>
 
       <el-form-item label="横轴(x)" prop="unit">
-        <el-select v-model="data.xMin" placeholder="请选择">
-          <el-option
-            v-for="item in report.axisXKeys"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
+        <el-input v-model="data.xMin"  class="w150"></el-input>
         -
-        <el-select v-model="data.xMax" placeholder="请选择">
-          <el-option
-            v-for="item in report.axisXKeys"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
+        <el-input v-model="data.xMax"  class="w150"></el-input>
       </el-form-item>
 
       <el-form-item label="纵轴(y)" prop="unit">
-        <el-select v-model="data.yMin" placeholder="请选择">
-          <el-option
-            v-for="item in report.axisYKeys"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
+        <el-input v-model="data.yMin"  class="w150"></el-input>
         -
-        <el-select v-model="data.yMax" placeholder="请选择">
-          <el-option
-            v-for="item in report.axisYKeys"
-            :key="item"
-            :label="item"
-            :value="item">
-          </el-option>
-        </el-select>
+        <el-input v-model="data.yMax"  class="w150"></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -64,7 +36,7 @@
         <el-button size="small" @click="onDelete">删除</el-button>
       </el-form-item>
     </el-form>
-    <div class="chart" ref="chart"></div>
+    <div class="chart" ref="chart" v-show="!rendering"></div>
   </div>
 </template>
 <script>
@@ -72,6 +44,7 @@ import echarts from 'echarts'
 export default {
   data () {
     return {
+      rendering: false,
       chartTypes: [
         {value: 1, label: '饼图'},
         {value: 2, label: '柱状图'},
@@ -99,36 +72,140 @@ export default {
   methods: {
     // 预览
     onPreview () {
-      let chart = this.$refs['chart']
-      var myChart = echarts.init(chart)
+      this.rendering = true
 
-      // 指定图表的配置项和数据
-      var option = {
-        title: {
-          text: this.data.name
-        },
-        tooltip: {},
-        legend: {
-          data: ['销量', '成本']
-        },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        },
-        yAxis: {},
-        series: [{
-          name: '销量',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
-        }, {
-          name: '成本',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
+      setTimeout(() => {
+        this.getAxisData()
+        let option = {} // 指定图表的配置项和数据
+        switch (this.data.type) {
+          case 1:
+            option = {
+              title: {
+                text: this.data.name
+              },
+              tooltip: {
+                show: true
+              },
+              legend: {
+                show: false
+              },
+              xAxis: {
+                show: false
+              },
+              yAxis: {
+                show: false
+              },
+              series: [{
+                name: '销量',
+                type: 'pie',
+                radius: '70%',
+                data: this.report.xyData
+              }]
+            }
+            break
+          case 2:
+            option = {
+              title: {
+                text: this.data.name
+              },
+              legend: {
+                show: true
+              },
+              xAxis: {
+                show: true,
+                data: this.report.xData
+              },
+              yAxis: {
+                show: true
+              },
+              series: [{
+                type: 'bar',
+                barGap: '30%',
+                barMaxWidth: '50%',
+                data: this.report.yData
+              }
+              ]
+            }
+            break
+          case 3:
+            option = {
+              title: {
+                text: this.data.name
+              },
+              legend: {
+                show: true,
+                data: this.report.xData
+              },
+              xAxis: {
+                show: true,
+                data: this.report.xData
+              },
+              yAxis: {
+                show: true
+              },
+              series: [{
+                type: 'line',
+                smooth: true,
+                data: this.report.yData
+              }
+              ]
+            }
+            break
         }
-        ]
-      }
 
-      // 使用刚指定的配置项和数据显示图表。
-      myChart.setOption(option)
+        let chart = this.$refs['chart']
+        let myChart = echarts.init(chart)
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option)
+        this.rendering = false
+      })
+    },
+    // 获取 X Y 轴的数据
+    getAxisData () {
+      let xMinColumn = /^\D+(?=\d)/.exec(this.data.xMin)[0].toUpperCase()
+      let xMaxColumn = /^\D+(?=\d)/.exec(this.data.xMax)[0].toUpperCase()
+      if (xMinColumn !== xMaxColumn) {
+        console.log('X 轴 起点跟终点不在同一列')
+        return
+      }
+      let xMinRowBegin = /\d+/.exec(this.data.xMin)[0] - 1
+      let xMinRowEnd = /\d+/.exec(this.data.xMax)[0] - 1
+      if (xMinRowBegin >= xMinRowEnd) {
+        console.log('X 轴 起点必须在终点之前')
+        return
+      }
+      let yMinColumn = /^\D+(?=\d)/.exec(this.data.yMin)[0].toUpperCase()
+      let yMAxColumn = /^\D+(?=\d)/.exec(this.data.yMax)[0].toUpperCase()
+
+      if (yMinColumn !== yMAxColumn) {
+        console.log('Y 轴 起点跟终点不在同一列')
+        return
+      }
+      let yMinRowBegin = /\d+/.exec(this.data.yMin)[0] - 1
+      let yMinRowEnd = /\d+/.exec(this.data.yMax)[0] - 1
+      if (yMinRowBegin >= yMinRowEnd) {
+        console.log('Y 轴 起点必须在终点之前')
+        return
+      }
+      if (xMinRowBegin !== yMinRowBegin || xMinRowEnd !== yMinRowEnd) {
+        console.log('X轴和Y轴的范围必须一致')
+        return
+      }
+      // console.log(this.report.reportDataContent)
+      let xData = []
+      let yData = []
+      let xyData = []
+      this.report.reportDataContent.map((item, index) => {
+        if (index >= xMinRowBegin && index <= xMinRowEnd) {
+          xData.push(item[xMinColumn])
+          yData.push(item[yMinColumn])
+          xyData.push({name: item[xMinColumn], value: item[yMinColumn]})
+        }
+      })
+      this.report.xData = xData
+      this.report.yData = yData
+      this.report.xyData = xyData
+      // console.log(xData, yData, xyData)
     },
     // 删除
     onDelete () {
@@ -153,7 +230,7 @@ export default {
     padding-top: 20px;
   }
   .chart{
-    width: 400px;
+    width: 500px;
     height: 400px;
     margin-left: 20px;
   }
