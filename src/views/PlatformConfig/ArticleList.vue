@@ -67,7 +67,7 @@ export default{
     // 转换html 为文本
     removeHTMLTag (html) {
       let htmlTagReg = /<(\/)?[^>].*?>/g
-      console.log('数据', html.replace(htmlTagReg, ''))
+      // console.log('数据', html.replace(htmlTagReg, ''))
       return html.replace(htmlTagReg, '').trim()
     },
     // 单个删除
