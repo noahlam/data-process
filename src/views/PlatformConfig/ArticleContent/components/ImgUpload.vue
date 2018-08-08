@@ -4,7 +4,7 @@
              :on-success="handleUploadSuccess"
              :on-error="handleUploadError"
              accept=".jpeg,.jpg,.png"
-             action="/backend/mobileUpload/uploadImg.do">
+             action="/common/upload/uploadImg.do">
     <div class="uploadContent" v-loading="uploading" element-loading-text="文件上传中...">
       <div class="imgBox" v-if="formData.image">
         <img v-if="formData.image" :src="formData.image" class="avatar">
@@ -24,12 +24,18 @@
 
 <script>
 export default {
+  props: {
+    formData: {
+      type: Object,
+      default: () => {}
+    }
+  },
   name: 'ImgUpload',
   data () {
     return {
-      formData: {
-        image: ''
-      },
+      // formData: {
+      //   image: ''
+      // },
       uploading: false,
       uploadReqData: {
         from: 'banner'
@@ -66,11 +72,14 @@ export default {
       this.uploading = false
       this.formData.image = ''
     },
-    beforeClose () {
-      this.$emit('input', false)
-    },
     // 保存
-    toSave () {}
+    toSave () {
+      if (this.uploading) {
+        this.$message.warning('图片正在上传中，请稍候保存！')
+        return false
+      }
+      return true
+    }
   }
 }
 </script>
@@ -91,15 +100,17 @@ export default {
     }
     .imgBox {
       width: 100%;
-      min-height: 180px;
-      max-height: 200px;
+      height: 180px;
+      /*min-height: 180px;*/
+      /*max-height: 200px;*/
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       img{
         width: 100%;
-        height: auto;
+        /*height: auto;*/
+        height: 100%;
         vertical-align: middle;
       }
       .mask{

@@ -36,7 +36,7 @@ export default {
   data () {
     return {
       mainLoading: false,
-      listData: [{}],
+      listData: [],
       editInfo: {
         showDialog: false,
         itemInfo: null

@@ -29,7 +29,7 @@
       </el-row>
     </el-form>
     <el-row class="mainBtn">
-      <el-button class="v-button" icon="el-icon-close" type="danger" @click="toAudit">批量删除</el-button>
+      <el-button class="v-button" icon="el-icon-close" type="danger" @click="toAllDelete">批量删除</el-button>
     </el-row>
     <el-table :data="listData" v-loading="mainLoading" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column align="center" type="selection" width="55"> </el-table-column>
@@ -58,7 +58,7 @@
       <el-table-column align="center" prop="date" label="操作" width="150px">
         <template slot-scope="scope">
           <router-link :to="`/user/userSetting?memberId=${scope.row.memberId}`"><el-button size="small" type="primary" plain>查看</el-button></router-link>
-          <el-button size="small" type="danger" plain>删除</el-button>
+          <el-button size="small" type="danger" plain @click="toSingleDelete(scope.row.memberId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -73,7 +73,7 @@ export default{
         mobile: '',
         name: ''
       },
-      listData: [{}],
+      listData: [],
       multiSelectList: [], // 多选
       mainLoading: false
     }
@@ -88,7 +88,9 @@ export default{
         showCount: 10000
       }
       reqData = Object.assign({}, reqData, this.formData)
+      this.mainLoading = true
       let res = await this.$post('admin/member/list.do', reqData)
+      this.mainLoading = false
       if (parseInt(res.code) === 1) {
         this.listData = res.data.memberArray || []
       } else {
@@ -119,25 +121,88 @@ export default{
         beforeClose: async (action, instance, done) => {
           console.log(action, instance)
           if (action === 'confirm' || action === 'cancel') {
-            //   instance.confirmButtonLoading = true
-            //   instance.confirmButtonText = '执行中...'
-            //   let memberIdArray = []
-            //   memberIdArray.push({
-            //     memberId
-            //   })
-            //   let res = await this.$post('admin/reportFormType/delete.do', {memberIdArray: JSON.stringify(memberIdArray)})
-            //   instance.confirmButtonLoading = false
-            //   instance.confirmButtonText = '确定'
-            //   if (parseInt(res.code) === 1) {
-            //     this.$message.success('删除成功')
-            //     this.getList()
-            //   } else {
-            //     this.$message.error(res.message)
-            //   }
-            //   done()
-            // } else {
-            //   done()
-            // }
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true
+              instance.confirmButtonText = '执行中...'
+            } else {
+              instance.cancelButtonLoading = true
+              instance.cancelButtonText = '执行中...'
+            }
+            let memberIdArray = []
+            memberIdArray.push({
+              memberId
+            })
+            let url = action === 'confirm' ? 'admin/member/pass.do' : 'admin/member/refuse.do'
+            let res = await this.$post(url, {memberIdArray: JSON.stringify(memberIdArray)})
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = false
+              instance.confirmButtonText = '通过'
+            } else {
+              instance.cancelButtonLoading = false
+              instance.cancelButtonText = '不通过'
+            }
+            if (parseInt(res.code) === 1) {
+              this.$message.success('审核成功')
+              this.getList()
+            } else {
+              this.$message.error(res.message)
+            }
+            done()
+          } else {
+            done()
+          }
+        }
+      }).then(() => {
+        return true
+      }).catch(() => {
+        return false
+      })
+    },
+    // 单个删除
+    toSingleDelete (memberId) {
+      let memberIdArray = []
+      memberIdArray.push({
+        memberId
+      })
+      this.toDeleteData(memberIdArray, 1)
+    },
+    // 多个删除
+    toAllDelete () {
+      if (!this.multiSelectList.length) {
+        this.$message.error('请选择数据')
+        return false
+      }
+      let memberIdArray = []
+      this.multiSelectList.map(item => {
+        memberIdArray.push({
+          memberId: item.memberId
+        })
+      })
+      this.toDeleteData(memberIdArray)
+    },
+    // 删除数据
+    toDeleteData (memberIdArray, isSingle) {
+      let text = isSingle ? '是否确认删除用户信息？' : `是否删除选中的${memberIdArray.length}个用户信息？`
+      this.$confirm(text, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+        beforeClose: async (action, instance, done) => {
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true
+            instance.confirmButtonText = '删除中...'
+            let res = await this.$post('admin/member/delete.do', {memberIdArray: JSON.stringify(memberIdArray)})
+            instance.confirmButtonLoading = false
+            instance.confirmButtonText = '确定'
+            if (parseInt(res.code) === 1) {
+              this.$message.success('删除成功')
+              this.getList()
+            } else {
+              this.$message.error(res.message)
+            }
+            done()
+          } else {
+            done()
           }
         }
       }).then(() => {

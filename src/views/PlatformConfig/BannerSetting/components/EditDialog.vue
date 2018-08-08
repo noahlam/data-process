@@ -1,13 +1,13 @@
 <template>
   <el-dialog class="bannerEditWrap" center title="编辑" v-if="value" :visible="value" width="600px" :before-close="beforeClose"  :close-on-click-modal="false">
-    <el-form :model="formData" :rules="formRules" label-width="120px" class="v-form" @submit.native.prevent>
+    <el-form :model="formData" :rules="formRules" ref="bannerEditRef" label-width="120px" class="v-form" @submit.native.prevent>
       <el-form-item label="图片" prop="image">
         <el-upload class="uploadWrap" :data="uploadReqData" :disabled="uploading" :show-file-list="false"
                    :before-upload="beforePicUpload"
                    :on-success="handleUploadSuccess"
                    :on-error="handleUploadError"
                    accept=".jpeg,.jpg,.png"
-                   action="/backend/mobileUpload/uploadImg.do">
+                   action="/common/upload/uploadImg.do">
           <div class="uploadContent" v-loading="uploading" element-loading-text="文件上传中...">
             <div class="imgBox" v-if="formData.image">
               <img v-if="formData.image" :src="formData.image" class="avatar">
@@ -24,20 +24,20 @@
           <div class="el-upload__tip" slot="tip" style="line-height: 20px">仅限上传jpg/png格式图片，建议上传尺寸750*400，1M以内</div>
         </el-upload>
       </el-form-item>
-      <el-form-item label="名称" prop="image">
-        <el-input v-model="formData.name" size="small" :maxlength="20"> </el-input>
+      <el-form-item label="名称" prop="bannerName">
+        <el-input v-model="formData.bannerName" size="small" :maxlength="20"> </el-input>
       </el-form-item>
-      <el-form-item label="是否链接" prop="image">
-        <el-radio v-model="formData.radio" :label="1">是</el-radio>
-        <el-radio v-model="formData.radio" :label="0">否</el-radio>
+      <el-form-item label="是否链接" prop="isJump">
+        <el-radio v-model="formData.isJump" :label="1">是</el-radio>
+        <el-radio v-model="formData.isJump" :label="0">否</el-radio>
       </el-form-item>
-      <el-form-item label="跳转链接" prop="image" v-if="formData.radio">
-        <el-input v-model="formData.name" size="small" :maxlength="100"> </el-input>
+      <el-form-item label="跳转链接" prop="jumpUrl" v-if="formData.isJump">
+        <el-input v-model="formData.jumpUrl" size="small" :maxlength="100"> </el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click="beforeClose">取 消</el-button>
-      <el-button type="primary" @click="toSave">确 定</el-button>
+      <el-button type="primary" @click="toSave" :loading="saveLoading">确 定</el-button>
     </div>
   </el-dialog>
 </template>
@@ -46,20 +46,31 @@
 export default {
   name: 'edit-dialog',
   props: {
-    value: false
+    value: false,
+    itemInfo: {
+      type: Object,
+      default: null
+    }
   },
   data () {
     return {
       formData: {
-        image: ''
+        bannerName: '',
+        image: '',
+        isJump: 0, // 0：否 1：是
+        jumpUrl: ''
       },
       formRules: {
+        bannerName: [{required: true, message: '请填写名称', trigger: 'blur'}],
+        isJump: [{required: true, message: '请选择是否链接', trigger: 'change'}],
+        jumpUrl: [{required: true, message: '请填写跳转链接', trigger: 'blur'}],
         image: [{required: true, message: '请上传图片', trigger: 'blur, change'}]
       },
       uploading: false,
       uploadReqData: {
         from: 'banner'
-      }
+      },
+      saveLoading: false
     }
   },
   methods: {
@@ -92,11 +103,66 @@ export default {
       this.uploading = false
       this.formData.image = ''
     },
+    // 上传图片----end
     beforeClose () {
       this.$emit('input', false)
     },
+    clearData () {
+      this.formData = {
+        bannerName: '',
+        image: '',
+        isJump: 0, // 0：否 1：是
+        jumpUrl: ''
+      }
+    },
     // 保存
-    toSave () {}
+    toSave () {
+      if (this.uploading) {
+        this.$message.warning('图片正在上传中，请稍候保存！')
+        return false
+      }
+      this.$refs.bannerEditRef.validate(async valid => {
+        if (!valid) {
+          return false
+        }
+        // 下面是保存
+        let reqData = {
+          bannerName: this.formData.bannerName,
+          bannerImage: this.formData.image,
+          isJump: this.formData.isJump,
+          jumpUrl: this.formData.jumpUrl
+        }
+        let url = 'admin/banner/add.do'
+        if (this.bannerId) {
+          reqData.bannerId = this.bannerId
+          url = 'admin/banner/edit.do'
+        }
+        this.saveLoading = true
+        let res = await this.$post(url, reqData)
+        this.saveLoading = false
+        if (parseInt(res.code) === 1) {
+          this.$message.success('保存成功')
+          this.$emit('success', false)
+          this.beforeClose()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    }
+  },
+  watch: {
+    value (newVal) {
+      if (newVal) {
+        this.saveLoading = false
+        this.clearData()
+        if (this.itemInfo) {
+          this.formData.bannerName = this.itemInfo.bannerName || ''
+          this.formData.image = this.itemInfo.bannerImage || ''
+          this.formData.isJump = this.itemInfo.isJump || 0
+          this.formData.jumpUrl = this.itemInfo.jumpUrl || ''
+        }
+      }
+    }
   }
 }
 </script>
@@ -126,6 +192,7 @@ export default {
       img{
         width: 100%;
         height: auto;
+        max-height: 100%;
         vertical-align: middle;
       }
       .mask{

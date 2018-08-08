@@ -4,17 +4,22 @@
       <h3 class="v-title">操作日志</h3>
     </div>
     <el-table :data="listData" v-loading="mainLoading" style="width: 100%">
-      <el-table-column align="center" label="编号" width="120px">
+      <el-table-column align="center" label="编号" width="100px">
         <template slot-scope="scope">
-          {{scope.$index + 1}}
+          {{(pageInfo.currentPage - 1)*pageInfo.showCount +  scope.$index + 1}}
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="name" label="操作者"> </el-table-column>
-      <el-table-column align="center" prop="name" label="操作日期"> </el-table-column>
-      <el-table-column align="center" prop="name" label="IP地址"> </el-table-column>
-      <el-table-column align="center" prop="name" label="操作记录"> </el-table-column>
+      <el-table-column align="center" prop="username" label="操作者"> </el-table-column>
+      <el-table-column align="center" prop="createTime" label="操作日期">
+        <template slot-scope="scope">
+          {{$moment(scope.row.createTime).format('YYYY-MM-DD HH:mm')}}
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="ip" label="IP地址"> </el-table-column>
+      <el-table-column align="center" prop="content" label="操作记录" min-width="400px"> </el-table-column>
     </el-table>
     <el-pagination
+       v-if="pageInfo.total"
        class="v-page"
        @current-change="handleCurrentChange"
        :current-page.sync="pageInfo.currentPage"
@@ -30,16 +35,39 @@ export default {
   data () {
     return {
       mainLoading: false,
-      listData: [{}],
+      listData: [],
       pageInfo: {
         currentPage: 1,
         showCount: 20,
-        total: 155
+        total: 0
       }
     }
   },
+  created () {
+    this.getList()
+  },
   methods: {
-    handleCurrentChange () {}
+    async getList () {
+      let reqData = {
+        currentPage: this.pageInfo.currentPage,
+        showCount: this.pageInfo.showCount
+      }
+      this.mainLoading = true
+      let res = await this.$post('admin/log/list.do', reqData)
+      this.mainLoading = false
+      if (parseInt(res.code) === 1) {
+        this.listData = res.data.logArray || []
+        this.pageInfo.total = res.data.totalResult
+      } else {
+        this.$message.error(res.message)
+      }
+    },
+    handleCurrentChange (val) {
+      if (val) {
+        this.pageInfo.currentPage = val
+        this.getList()
+      }
+    }
   }
 }
 </script>

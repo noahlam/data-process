@@ -83,7 +83,7 @@ export default {
         default_link_target: '_blank',
         link_title: false,
         language: 'zh_CN',
-        autoresize_min_height: 400,
+        autoresize_min_height: this.height,
         init_instance_callback: editor => {
           if (_this.value) {
             editor.setContent(_this.value)

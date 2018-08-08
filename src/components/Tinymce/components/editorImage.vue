@@ -3,7 +3,7 @@
     <el-button icon='el-icon-upload' size="mini"  @click=" dialogVisible=true" type="primary">上传图片
     </el-button>
     <el-dialog append-to-body :visible.sync="dialogVisible" width="820px">
-      <el-upload class="editor-slide-upload" action="common/mobileUpload/uploadFile.do" :data="fileData" name="file" :multiple="true" :file-list="fileList" :show-file-list="true"
+      <el-upload class="editor-slide-upload" action="/common/upload/uploadImg.do" :data="fileData" name="file" :multiple="true" :file-list="fileList" :show-file-list="true"
         list-type="picture-card" :on-remove="handleRemove" :on-success="handleSuccess" :before-upload="beforeUpload">
         <i class="el-icon-plus"></i>
       </el-upload>
@@ -62,7 +62,7 @@ export default {
       const objKeyArr = Object.keys(this.listObj)
       for (let i = 0, len = objKeyArr.length; i < len; i++) {
         if (this.listObj[objKeyArr[i]].uid === uid) {
-          this.listObj[objKeyArr[i]].url = response.url
+          this.listObj[objKeyArr[i]].url = response.data.url
           this.listObj[objKeyArr[i]].hasSuccess = true
           return
         }

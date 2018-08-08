@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../store'
+import Qs from 'qs'
 // import { Message } from 'element-ui'
 
 // 创建axios实例
@@ -7,10 +8,6 @@ const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
   timeout: 60000 // 请求超时时间
 })
-
-/**
- * 拦截request，加上用户信息
- */
 
 /**
  * 拦截response，处理全局异常
@@ -39,9 +36,9 @@ service.interceptors.response.use(
 /**
  *  @params url: 请求的url地址
  *          data: 请求参数
- *          json: 是否用json的形式
+ *          isFormData: 是否用formData的形式
  * */
-export default function post (url, data = {}, json) {
+export default function post (url, data = {}, isFormData = false) {
   try {
     const userInfo = {
       userId: store.getters.userInfo.userId || '',
@@ -50,17 +47,23 @@ export default function post (url, data = {}, json) {
     if (store.getters.userInfo.token) {
       data = Object.assign({}, userInfo, data)
     }
-    let contentType = json ? 'application/json' : 'application/x-www-form-urlencoded'
+    let contentType = isFormData ? 'multipart/form-data' : 'application/x-www-form-urlencoded'
     let config = {
       url: url,
       method: 'post',
       headers: {'Content-Type': contentType},
       withCredentials: true
     }
-    if (json) {
-      config.data = data
+    if (isFormData) {
+      let form = new FormData()
+      form.method = 'post'
+      form.enctype = 'multipart/form-data'
+      for (let key in data) {
+        form.append(key, data[key])
+      }
+      config.data = form
     } else {
-      config.params = data
+      config.data = Qs.stringify(data)
     }
     return service(config)
   } catch (e) {
