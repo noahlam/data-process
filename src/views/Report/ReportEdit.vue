@@ -68,9 +68,8 @@ export default {
         this.report.reportDataContent = JSON.parse(this.report.reportDataContent)
         this.importSetting.data = this.report.reportDataContent
         this.report.reportFormTypeId = 1
-        this.getAxisData()
+        // this.getAxisData()
       }
-      // console.log(res)
     },
     // 获取 2 轴的数据
     getAxisData () {
