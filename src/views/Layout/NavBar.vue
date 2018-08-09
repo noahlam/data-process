@@ -16,13 +16,7 @@
         <el-dropdown-item command="toLogout">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <el-dialog
-       class="changePwsDialog"
-       title="修改密码"
-       :visible.sync="changeDialogVisible"
-       :close-on-click-modal="false"
-       width="400px"
-       center>
+    <el-dialog class="changePwsDialog" title="修改密码" v-if="changeDialogVisible" :visible.sync="changeDialogVisible" :close-on-click-modal="false" width="400px" center>
       <el-form class="formBox" ref="ruleForm" :rules="formRules" :model="formData" size="small" label-width="80px">
 
         <el-form-item  label="旧密码" class="inputItem" prop="oldPassword">
@@ -48,7 +42,17 @@
 export default {
   name: 'navbar',
   data () {
+    let validatePassOld = (rule, value, callback) => {
+      if (this.formData.confirmPassword !== '') {
+        this.$refs.ruleForm.validateField('newPassword')
+      }
+      callback()
+    }
     let validatePass = (rule, value, callback) => {
+      if (this.formData.oldPassword !== '' && this.formData.oldPassword === value) {
+        callback(new Error('新旧密码不能重复！'))
+        return
+      }
       if (this.formData.confirmPassword !== '') {
         this.$refs.ruleForm.validateField('confirmPassword')
       }
@@ -56,7 +60,7 @@ export default {
     }
     let validatePass2 = (rule, value, callback) => {
       if (value !== this.formData.newPassword) {
-        callback(new Error('两次输入的密码不一致'))
+        callback(new Error('请输入相同的登录密码'))
       } else {
         callback()
       }
@@ -72,9 +76,8 @@ export default {
       },
       formRules: {
         oldPassword: [
-          {
-            required: true, message: '请输入旧密码', trigger: 'blur'
-          }
+          {required: true, message: '请输入旧密码', trigger: 'blur'},
+          {validator: validatePassOld, trigger: 'blur'}
         ],
         newPassword: [
           {required: true, message: '请输入新密码', trigger: 'blur'},
@@ -117,8 +120,12 @@ export default {
     onSubmit () {
       this.$refs.ruleForm.validate(async valid => {
         if (valid) {
+          let reqData = {
+            oldPassword: this.formData.oldPassword,
+            newPassword: this.formData.newPassword
+          }
           this.saveLoading = true
-          let res = await this.$post('admin/user/editPwd.do', this.formData)
+          let res = await this.$post('admin/user/editPwd.do', reqData)
           this.saveLoading = false
           if (parseInt(res.code) === 1) {
             this.$message.success('修改成功')

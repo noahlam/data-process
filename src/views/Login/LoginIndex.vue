@@ -1,7 +1,45 @@
 <template>
-  <div class="loginWrap">
+  <!--<div class="loginWrap">
     <div class="main">
-      <h1 class="title">株洲商务局报表管理后台</h1>
+      <h1 class="title">株洲商务粮食局报表管理后台</h1>
+      <el-form autoComplete="on" label-position="top" :model="loginForm" :rules="loginRules" ref="loginForm">
+        <el-form-item label="用户名" prop="username">
+          <el-input name="text" type="text" @keyup.enter.native="handleLogin" :maxlength="20"
+                    v-model="loginForm.username" autoComplete="on" placeholder="账号"> </el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input name="password" type="password" @keyup.enter.native="handleLogin" :maxlength="20"
+                    v-model="loginForm.password" autoComplete="on" placeholder="密码"> </el-input>
+        </el-form-item>
+        <el-form-item label="图形验证码" prop="validCode" class="codeInput">
+          <el-input style="width:220px;" name="validCode" type="text" @keyup.enter.native="handleLogin"
+                    :maxlength="20" v-model="loginForm.validCode" autoComplete="on" placeholder="请输入验证码"> </el-input>
+          <img class="codeImg" :src="loginForm.codePicUrl"  alt="验证码" @click="getVerifyCode"> &lt;!&ndash; :src="loginForm.codePicUrl"&ndash;&gt;
+        </el-form-item>
+        <el-form-item>
+          <el-button style="width:320px;margin-top:30px;" type="primary" @click="handleLogin">
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>-->
+  <div class="loginWrap">
+    <div class="svgBox">
+      <img class="img" src="./assets/login.png" alt="">
+      <svg class="svgImg" xmlns="http://www.w3.org/2000/svg" width="1526" height="1080" viewBox="0 0 1526 1080">
+        <defs>
+          <linearGradient id="a" x1="86.021%" x2="2.059%" y1="102.517%" y2="-11.725%">
+            <stop offset="0%" stop-color="#9DBFFF"/>
+            <stop offset="100%" stop-color="#6785FF"/>
+          </linearGradient>
+        </defs>
+        <path fill="url(#a)" fill-rule="evenodd" d="M1026.187 0c35.176 34.942 53.75 74.616 55.724 119.023 10.162 228.68-168.592 426.493-118.8 568.29 49.79 141.796 142.064 185.445 531.692 376.156 11.683 5.718 21.795 11.228 30.338 16.531H0V0h1026.187z"/>
+      </svg>
+    </div>
+
+    <div class="main">
+      <h1 class="title">株洲商务粮食局报表管理后台</h1>
       <el-form autoComplete="on" label-position="top" :model="loginForm" :rules="loginRules" ref="loginForm">
         <el-form-item label="用户名" prop="username">
           <el-input name="text" type="text" @keyup.enter.native="handleLogin" :maxlength="20"
@@ -120,11 +158,97 @@ export default {
 <style scoped rel="stylesheet/scss" lang="scss">
   @import '~@/styles/common.scss';
   .loginWrap {
+    position: relative;
+    height: 100vh;
+    width:100%;
+    min-height: 750px;
+    min-width: 1200px;
+    overflow: hidden;
+    /*background: #fff url("./assets/bg.png") no-repeat left center;*/
+    /*background-size: auto 100%;*/
+    display: flex;
+    align-items: center;
+    /*justify-content: flex-end;*/
+  }
+  .svgBox{
+    position: absolute;
+    height: 100%;
+    width: auto;
+    min-width: 1200px;
+    min-height: 750px;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    transition: left 0.2s;
+    .svgImg{
+      height: 100%;
+      width: auto;
+      min-height: 870px;
+      min-width: 1060px;
+    }
+    .img{
+      position: absolute;
+      top: 26%;
+      /*right: 39%;*/
+      right: 560px;
+      height: 47%;
+      width: auto;
+      margin: 0;
+    }
+  }
+  .main{
+    width:450px;
+    margin-left: 1000px;
+    z-index: 10;
+    transition: left 0.2s;
+    /*margin-right: 300px;*/
+    .title{
+      font-size: 32px;
+      line-height: 50px;
+      color: #000;
+      font-weight: normal;
+      margin: 0 0 20px 0;
+    }
+    .el-form{
+      width: 322px;
+      .el-form-item__label{
+        margin-bottom: 0;
+      }
+    }
+    .codeImg{
+      /*background: #ccc;*/
+      width: 90px;
+      height: auto;
+      max-height: 40px;
+      vertical-align: top;
+      cursor: pointer;
+    }
+  }
+  @media screen and (min-width: 1521px){
+    /*.loginWrap {*/
+      /*background-position: left center;*/
+    /*}*/
+    .main{
+      margin-left: 1100px;
+    }
+  }
+  @media screen and (max-width: 1450px) {
+    .svgBox{
+      left: -250px;
+    }
+    .main{
+      margin-left: 750px ;
+    }
+  }
+</style>
+<!--<style scoped rel="stylesheet/scss" lang="scss">
+  @import '~@/styles/common.scss';
+  .loginWrap {
     height:100%;
     width:100%;
     min-height: 100vh;
     min-width: 100vw;
-    background: #fff url("./assets/bg.png") no-repeat left center;
+    /*background: #fff url("./assets/bg.png") no-repeat left center;*/
     background-size: auto 100%;
     display: flex;
     align-items: center;
@@ -171,7 +295,7 @@ export default {
       margin-left: 780px ;
     }
   }
-</style>
+</style>-->
 
 <style rel="stylesheet/scss" lang="scss">
   .loginWrap{
@@ -185,108 +309,3 @@ export default {
     }
   }
 </style>
-<!--
-<style scoped rel="stylesheet/scss" lang="scss">
-  @import '~@/styles/common.scss';
-  .login-wrap {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: $background-color;
-    header{
-      height: 100px;
-      background: $color-primary;
-      .head-bar{
-        height: 80px;
-        width: 1000px;
-        margin: 10px auto;
-        display: flex;
-        align-items: center;
-        img {
-          box-sizing: content-box;
-          width: 200px;
-          /*padding: 0 50px;*/
-          /*height: 60px;*/
-          /*background: #fff;*/
-        }
-        h1{
-          padding-left: 20px;
-          height: 100%;
-          line-height: 80px;
-          color: #fff;
-          border-left: 1px solid #fff;
-          font-weight: normal;
-          font-size: $font-sub-title;
-
-        }
-      }
-    }
-    section{
-      width: 1000px;
-      height: 500px;
-      margin: 10px auto;
-      background: #fff;
-      border-top: 2px solid $color-primary;
-
-      .box {
-        height: 500px;
-        margin: 0 30px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-
-      }
-      .leftPart{
-        width: 420px;
-        img{
-          width: 100%;
-          border-radius: 4px;
-        }
-      }
-      .rightPart{
-        width: 320px;
-        h2 {
-          font-size: $font-min-title;
-          color: $color-primary;
-          font-weight: normal;
-          text-align: center;
-          margin-bottom: 30px;
-        }
-        .codeBox{
-          display: flex;
-          align-items: center;
-          .codeInput {
-            width: 180px;
-          }
-          img {
-            width: 80px;
-            height: auto;
-            margin: 0 0 0 6px;
-            vertical-align: top;
-            cursor: pointer;
-          }
-        }
-        .checkBox{
-          margin-top: -14px;
-          height: 22px;
-        }
-        .loginBtn{
-          box-sizing: border-box;
-          width: 100%;
-        }
-
-      }
-    }
-    footer{
-      height: 100px;
-      background: #eaeaea;
-      text-align: center;
-      line-height: 100px;
-      font-size: $font-sub-title;
-      color: $text-primary;
-    }
-  }
-
-</style>
--->

@@ -9,7 +9,7 @@
     </el-row>
     <el-table :data="listData" v-loading="mainLoading" style="width: 100%" @selection-change="handleSelectionChange">
       <el-table-column align="center" type="selection" width="55"> </el-table-column>
-      <el-table-column align="center" prop="bannerImage" label="图片">
+      <el-table-column align="center" prop="bannerImage" label="图片" width="310px">
         <template slot-scope="scope">
           <div class="imgBox">
             <img :src="scope.row.bannerImage" alt="">
