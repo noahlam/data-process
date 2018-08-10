@@ -57,7 +57,7 @@
       </el-table-column>
       <el-table-column align="center" prop="date" label="操作" width="150px">
         <template slot-scope="scope">
-          <router-link :to="`/user/userSetting?memberId=${scope.row.memberId}`"><el-button size="small" type="primary" plain>查看</el-button></router-link>
+          <router-link :to="`/user/userDetail?memberId=${scope.row.memberId}`"><el-button size="small" type="primary" plain>查看</el-button></router-link>
           <el-button size="small" type="danger" plain @click="toSingleDelete(scope.row.memberId)">删除</el-button>
         </template>
       </el-table-column>
@@ -182,7 +182,7 @@ export default{
     },
     // 删除数据
     toDeleteData (memberIdArray, isSingle) {
-      let text = isSingle ? '是否确认删除用户信息？' : `是否删除选中的${memberIdArray.length}个用户信息？`
+      let text = isSingle ? '是否确认删除该用户信息？' : `是否删除选中的${memberIdArray.length}个用户信息？`
       this.$confirm(text, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',

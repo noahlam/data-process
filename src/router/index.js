@@ -14,7 +14,7 @@ import ReportList from '@/views/Report/ReportList'
 import ReportEdit from '@/views/Report/ReportEdit'
 // 用户列表
 import UserList from '@/views/UserList/UserList'
-import UserSetting from '@/views/UserList/UserSetting'
+import UserDetail from '@/views/UserList/UserDetail'
 
 // 文章列表
 import ArticleList from '@/views/PlatformConfig/ArticleList'
@@ -82,7 +82,7 @@ export const asyncRouterMap = [
     path: '/user',
     name: '用户列表',
     component: Layout,
-    meta: {menuId: '/user', childrenList: ['/user/userList', '/user/userSetting']},
+    meta: {menuId: '/user', childrenList: ['/user/userList', '/user/userDetail']},
     redirect: '/user/userList',
     noDropDown: true,
     children: [
@@ -93,10 +93,10 @@ export const asyncRouterMap = [
         meta: {menuId: '/user/userList'}
       },
       {
-        path: 'userSetting',
+        path: 'userDetail',
         name: '用户列表-详情',
-        component: UserSetting,
-        meta: {menuId: '/user/userSetting'}
+        component: UserDetail,
+        meta: {menuId: '/user/userDetail'}
       }
     ]
   },

@@ -4,7 +4,7 @@
       <h3 class="v-title">报表类型</h3>
     </div>
     <el-row class="mainBtn">
-      <el-button class="v-button" icon="el-icon-plus" type="primary" @click="toOpenEdit">添加报表类型</el-button>
+      <el-button class="v-button" icon="el-icon-plus" type="primary" @click="toOpenEdit(null)">添加报表类型</el-button>
     </el-row>
     <el-table :data="listData" v-loading="mainLoading" style="width: 100%">
       <el-table-column align="center" label="编号" width="120px">

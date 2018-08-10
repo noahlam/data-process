@@ -3,7 +3,7 @@
     <h2>数据统计</h2>
     <el-row class="contentWrap" type="flex"  justify="space-between">
       <el-col :span="7">
-        <router-link to="/" class="item reportType">
+        <router-link to="/report/reportType" class="item reportType">
           <div class="imgBox"></div>
           <div class="content">
             <p>报表类型</p>
@@ -12,7 +12,7 @@
         </router-link>
       </el-col>
       <el-col :span="7">
-        <router-link to="/" class="item reportNum">
+        <router-link to="/report/reportList" class="item reportNum">
           <div class="imgBox"></div>
           <div class="content">
             <p>报表数</p>
@@ -21,7 +21,7 @@
         </router-link>
       </el-col>
       <el-col :span="7">
-        <router-link to="/" class="item reportUser">
+        <router-link to="/user/userList" class="item reportUser">
           <div class="imgBox"></div>
           <div class="content">
             <p>已授权用户数</p>
