@@ -3,7 +3,7 @@
     <div class="v-title-box">
       <h3 class="v-title">文章内容</h3>
     </div>
-    <el-form :model="formData" :rules="formRules" ref="formDataRef" label-width="90px" class="v-form" @submit.native.prevent>
+    <el-form :model="formData" :rules="formRules" v-loading="mainLoading" ref="formDataRef" label-width="90px" class="v-form" @submit.native.prevent>
       <el-form-item label="文章标题" prop="articleTitle">
         <el-input v-model="formData.articleTitle" :maxlength="50" style="width: 350px"> </el-input>
       </el-form-item>
