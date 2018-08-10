@@ -45,12 +45,16 @@ export default {
   },
   computed: {
     showTable () {
-      return this.settings.data.length
+      return this.data.reportDataContent ? this.data.reportDataContent.length : 0
     }
   },
   methods: {
     // 下一步
     gotoNext () {
+      if (!this.data.reportDataContent.length) {
+        this.$message.error('请先导入数据')
+        return
+      }
       this.$emit('next', '3')
     },
     // 取消

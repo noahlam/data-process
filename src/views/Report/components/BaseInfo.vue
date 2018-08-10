@@ -65,7 +65,9 @@ export default {
   },
   methods: {
     // 下一步
-    gotoNext () {
+    async gotoNext () {
+      // 表单验证不通过
+      if (!await this.$validate(this.$refs.ruleForm)) return
       this.$emit('next', '2')
     },
     // 取消

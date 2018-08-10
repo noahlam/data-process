@@ -72,10 +72,11 @@ export default {
   methods: {
     // 预览
     onPreview () {
-      this.rendering = true
-
+      // this.rendering = true
+      let chart = this.$refs['chart']
+      echarts.dispose(chart)
       setTimeout(() => {
-        this.getAxisData()
+        if (!this.getAxisData()) return
         let option = {} // 指定图表的配置项和数据
         switch (this.data.type) {
           case 1:
@@ -96,7 +97,6 @@ export default {
                 show: false
               },
               series: [{
-                name: '销量',
                 type: 'pie',
                 radius: '70%',
                 data: this.report.xyData
@@ -152,44 +152,49 @@ export default {
             }
             break
         }
-
-        let chart = this.$refs['chart']
         let myChart = echarts.init(chart)
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option)
-        this.rendering = false
-      })
+      }, 0)
     },
     // 获取 X Y 轴的数据
     getAxisData () {
+      if (!this.data.name) {
+        this.$message.error(`请输入图表名称`)
+        return false
+      }
+      if (!this.data.type) {
+        this.$message.error(`请选择图表类型`)
+        return false
+      }
       let xMinColumn = /^\D+(?=\d)/.exec(this.data.xMin)[0].toUpperCase()
       let xMaxColumn = /^\D+(?=\d)/.exec(this.data.xMax)[0].toUpperCase()
       if (xMinColumn !== xMaxColumn) {
-        console.log('X 轴 起点跟终点不在同一列')
-        return
+        this.$message.error('X 轴 起点跟终点不在同一列')
+        return false
       }
       let xMinRowBegin = /\d+/.exec(this.data.xMin)[0] - 1
       let xMinRowEnd = /\d+/.exec(this.data.xMax)[0] - 1
       if (xMinRowBegin >= xMinRowEnd) {
-        console.log('X 轴 起点必须在终点之前')
-        return
+        this.$message.error('X 轴 起点必须在终点之前')
+        return false
       }
       let yMinColumn = /^\D+(?=\d)/.exec(this.data.yMin)[0].toUpperCase()
       let yMAxColumn = /^\D+(?=\d)/.exec(this.data.yMax)[0].toUpperCase()
 
       if (yMinColumn !== yMAxColumn) {
-        console.log('Y 轴 起点跟终点不在同一列')
-        return
+        this.$message.error('Y 轴 起点跟终点不在同一列')
+        return false
       }
       let yMinRowBegin = /\d+/.exec(this.data.yMin)[0] - 1
       let yMinRowEnd = /\d+/.exec(this.data.yMax)[0] - 1
       if (yMinRowBegin >= yMinRowEnd) {
-        console.log('Y 轴 起点必须在终点之前')
-        return
+        this.$message.error('Y 轴 起点必须在终点之前')
+        return false
       }
       if (xMinRowBegin !== yMinRowBegin || xMinRowEnd !== yMinRowEnd) {
-        console.log('X轴和Y轴的范围必须一致')
-        return
+        this.$message.error('X轴和Y轴的范围必须一致')
+        return false
       }
       // console.log(this.report.reportDataContent)
       let xData = []
@@ -206,6 +211,7 @@ export default {
       this.report.yData = yData
       this.report.xyData = xyData
       // console.log(xData, yData, xyData)
+      return true
     },
     // 删除
     onDelete () {

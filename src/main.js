@@ -12,11 +12,11 @@ import 'normalize.css/normalize.css'
 
 import {getToken} from '@/utils/auth'
 import fetch from './utils/fetch'
-import moment from 'moment'
+import validate from './utils/validate'
 
 // 注册全局异步请求方法
 Vue.prototype.$post = fetch
-Vue.prototype.$moment = moment
+Vue.prototype.$validate = validate
 
 Vue.config.productionTip = false
 Vue.use(Element)

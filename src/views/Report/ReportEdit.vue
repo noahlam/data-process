@@ -14,7 +14,7 @@
       </el-tab-pane>
       <el-tab-pane name="3">
         <span slot="label">移动端生成图表</span>
-        <ChartsEdit :data="report"></ChartsEdit>
+        <ChartsEdit :data.sync="report"></ChartsEdit>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -29,10 +29,11 @@ export default {
   data () {
     return {
       report: {
+        reportFormId: 0, // 报表id,如果有说明的编辑
         reportFormTypeId: '', // 类型ID
         reportFormName: '', // 报表名称
         reportFormTitle: '', // 副标题
-        reportFormUnit: '', // 单位
+        reportFormUnit: '万美元', // 单位
         reportFormRemark: '', // 备注/说明
         reportDataContent: [], // 报表数据参数集
         reportFormItemArray: [], // 图表数据参数集
@@ -60,11 +61,14 @@ export default {
   methods: {
     // 获取报表数据
     async getReportData () {
+      if (!this.report.reportFormId) return
+      let reportFormId = this.report.reportFormId
       let url = 'admin/reportForm/detail.do'
-      let body = {reportFormId: 1}
+      let body = {reportFormId: reportFormId}
       let res = await this.$post(url, body)
       if (res.code === '1') {
         this.report = res.data
+        this.report.reportFormId = reportFormId
         this.report.reportDataContent = JSON.parse(this.report.reportDataContent)
         this.importSetting.data = this.report.reportDataContent
         this.report.reportFormTypeId = 1
@@ -99,6 +103,7 @@ export default {
     }
   },
   created () {
+    this.report.reportFormId = this.$route.query.id
     this.getReportTypes()
     this.getReportData()
   }
