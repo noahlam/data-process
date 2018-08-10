@@ -4,7 +4,7 @@
       <h3 class="v-title">操作日志</h3>
     </div>
     <el-table :data="listData" v-loading="mainLoading" style="width: 100%">
-      <el-table-column align="center" label="编号" width="100px">
+      <el-table-column align="center" label="序号" width="60px">
         <template slot-scope="scope">
           {{(pageInfo.currentPage - 1)*pageInfo.showCount +  scope.$index + 1}}
         </template>
@@ -16,7 +16,7 @@
         </template>
       </el-table-column>
       <el-table-column align="center" prop="ip" label="IP地址"> </el-table-column>
-      <el-table-column align="center" prop="content" label="操作记录" min-width="400px"> </el-table-column>
+      <el-table-column align="center" prop="content" label="操作记录" min-width="300px"> </el-table-column>
     </el-table>
     <el-pagination
        v-if="pageInfo.total"

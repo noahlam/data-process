@@ -132,6 +132,9 @@ export default{
   .articleListWrap{
     .mainBtn{
       padding: 20px 0 10px;
+      .el-button{
+        margin-right: 10px;
+      }
     }
     .textHidden{
       overflow: hidden;

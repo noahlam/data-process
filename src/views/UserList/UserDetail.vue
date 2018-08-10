@@ -3,8 +3,9 @@
     <div class="v-title-box">
       <h3 class="v-title">用户详情</h3>
     </div>
-    <el-form :model="formData" label-width="120px" class="v-form userInfoWrap" size="mini" @submit.native.prevent v-loading="mainLoading">
+    <el-form :model="detailInfo" label-width="120px" class="v-form userInfoWrap" size="mini" @submit.native.prevent v-loading="mainLoading">
       <el-form-item label="姓名">{{detailInfo.name}} </el-form-item>
+      <el-form-item label="昵称">{{detailInfo.nickname}} </el-form-item>
       <el-form-item label="手机号">{{detailInfo.mobile}} </el-form-item>
       <el-form-item label="性别">
         <span v-if="detailInfo.sex === 1">男</span>
