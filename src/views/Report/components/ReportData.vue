@@ -16,6 +16,7 @@
 
     <div :class="{mtb20:!showTable}">
       <el-button type="primary" @click="gotoNext">下一步</el-button>
+      <el-button type="primary" @click="onSave">保存</el-button>
       <el-button @click="onCancel">取消</el-button>
     </div>
 
@@ -57,6 +58,14 @@ export default {
       }
       this.$emit('next', '3')
     },
+    // 保存
+    onSave () {
+      if (!this.data.reportDataContent.length) {
+        this.$message.error('请先导入数据')
+        return
+      }
+      this.$emit('save')
+    },
     // 取消
     onCancel () {
       this.$confirm('确定要放弃保存吗?', '提示').then(() => {
@@ -66,6 +75,10 @@ export default {
     },
     importData () {
       let f = this.$refs['file'].files[0]
+      if (!f) {
+        console.log('没有选择文件')
+        return
+      }
       var reader = new FileReader()
       reader.onload = e => {
         this.settings.data = []
@@ -78,6 +91,8 @@ export default {
         // this.getAxisData()
       }
       reader.readAsBinaryString(f)
+      // 清空 input 的值, 避免下次选择同一个文件的时候,不会触发 onchange 事件
+      this.$refs['file'].value = null
     },
     // 获取 2 轴的数据
     getAxisData () {
@@ -91,6 +106,11 @@ export default {
   }
 }
 </script>
+<style>
+  .htCore td {
+    max-width: 200px!important;
+  }
+</style>
 
 <style lang="scss" scoped rel="stylesheet/scss">
   .w400 {
