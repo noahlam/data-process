@@ -69,7 +69,7 @@ export default {
         selector: `#${this.tinymceId}`,
         height: this.height,
         body_class: 'panel-body ',
-        // forced_root_block:'',
+        forced_root_block: '',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,

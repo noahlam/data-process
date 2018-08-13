@@ -102,6 +102,7 @@ export default {
         this.$message.warning('图片正在上传中，请稍候保存！')
         return false
       }
+      this.formData.reportFormTypeName = this.formData.reportFormTypeName.trim()
       this.$refs.reportTypeEditRef.validate(async valid => {
         if (!valid) {
           return false
@@ -122,6 +123,8 @@ export default {
           this.$message.success('保存成功')
           this.$emit('success', true)
           this.beforeClose()
+        } else {
+          this.$message.error(res.message)
         }
       })
     }

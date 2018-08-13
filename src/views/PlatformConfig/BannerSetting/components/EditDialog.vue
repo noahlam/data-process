@@ -121,6 +121,7 @@ export default {
         this.$message.warning('图片正在上传中，请稍候保存！')
         return false
       }
+      this.formData.bannerName = this.formData.bannerName.trim()
       this.$refs.bannerEditRef.validate(async valid => {
         if (!valid) {
           return false

@@ -118,6 +118,9 @@ export default {
     },
     // 修改密码
     onSubmit () {
+      this.formData.oldPassword = this.formData.oldPassword.trim()
+      this.formData.newPassword = this.formData.newPassword.trim()
+      this.formData.confirmPassword = this.formData.confirmPassword.trim()
       this.$refs.ruleForm.validate(async valid => {
         if (valid) {
           let reqData = {

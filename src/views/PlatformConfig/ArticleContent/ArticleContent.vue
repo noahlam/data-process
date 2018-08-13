@@ -63,6 +63,7 @@ export default{
       if (!this.$refs.imgRef.toSave()) {
         return false
       }
+      this.formData.articleTitle = this.formData.articleTitle.trim()
       this.$refs.formDataRef.validate(async valid => {
         if (!valid) {
           return false

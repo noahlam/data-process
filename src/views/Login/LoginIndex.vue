@@ -116,6 +116,9 @@ export default {
     //   }
     // },
     handleLogin () {
+      this.loginForm.username = this.loginForm.username.trim()
+      this.loginForm.password = this.loginForm.password.trim()
+      this.loginForm.validToken = this.loginForm.validToken.trim()
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
           this.loading = true
