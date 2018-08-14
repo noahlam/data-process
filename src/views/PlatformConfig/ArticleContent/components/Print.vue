@@ -30,12 +30,15 @@ export default {
       // window.location.reload()
     },
     writeIframe () {
-      // let w
-      // let doc
       let iframe = document.createElement('iframe')
       let f = document.body.appendChild(iframe)
       iframe.id = 'myIframe'
-      iframe.style = 'position:absolute;width:0;height:0;top:-10px;left:-10px;'
+      iframe.style.position = 'absolute'
+      iframe.style.width = '0'
+      iframe.style.height = '0'
+      iframe.style.top = '-10px'
+      iframe.style.left = '-10px'
+      // iframe.style = 'position:absolute;width:0;height:0;top:-10px;left:-10px;'
 
       let w = f.contentWindow || f.contentDocument
       let doc = f.contentDocument || f.contentWindow.document
