@@ -102,7 +102,7 @@ export default {
               },
               series: [{
                 type: 'pie',
-                radius: '70%',
+                radius: '60%',
                 data: this.report.xyData
               }]
             }
