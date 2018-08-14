@@ -12,7 +12,7 @@
 
     <div class="mtb20" v-if="showTable">表格数据</div>
 
-    <HotTable :settings="settings" v-if="showTable" class="tableWrap"></HotTable>
+    <HotTable :settings="settings" v-if="showTable && !isLoading" class="tableWrap"></HotTable>
 
     <div :class="{mtb20:!showTable}">
       <el-button type="primary" @click="gotoNext">下一步</el-button>
@@ -30,7 +30,9 @@ import 'handsontable/languages/zh-CN'
 export default {
   components: {HotTable},
   data () {
-    return {}
+    return {
+      isLoading: false
+    }
   },
   props: {
     data: {
@@ -79,6 +81,8 @@ export default {
         console.log('没有选择文件')
         return
       }
+      this.isLoading = true
+      this.settings.colHeaders = false
       var reader = new FileReader()
       reader.onload = e => {
         this.settings.data = []
@@ -86,8 +90,16 @@ export default {
         let res = XLSX.read(data, {type: 'binary'})
         let sheetName = res.Sheets[res.SheetNames[0]]
         let table = XLSX.utils.sheet_to_json(sheetName, {header: 'A', raw: true, defval: ' '})
+        if (table.length) {
+          this.settings.colHeaders = Object.keys(table[0])
+        } else {
+          this.settings.colHeaders = []
+        }
         this.settings.data = table
         this.data.reportDataContent = table
+        this.$nextTick(() => {
+          this.isLoading = false
+        })
         // this.getAxisData()
       }
       reader.readAsBinaryString(f)

@@ -25,6 +25,7 @@
                style="width:150px;"
                icon="el-icon-plus">新增报表</el-button>
     <el-table :data="reportList" style="width: 100%">
+      <el-table-column type="index" width="60" label="编号"></el-table-column>
       <el-table-column prop="reportFormName" label="报表名称" ></el-table-column>
       <el-table-column prop="reportFormTypeName" label="报表类型" ></el-table-column>
       <el-table-column label="操作" align="center">
@@ -57,7 +58,7 @@ export default {
       filter: {
         total: 0,
         currentPage: 0,
-        showCount: 10,
+        showCount: 20,
         reportFormTypeId: undefined, // 报表类型ID
         reportFormName: undefined // 报表名称
       }
@@ -98,7 +99,7 @@ export default {
     chearSearch () {
       this.filter = {
         currentPage: 0,
-        showCount: 10,
+        showCount: 20,
         reportFormTypeId: undefined, // 报表类型ID
         reportFormName: undefined // 报表名称
       }

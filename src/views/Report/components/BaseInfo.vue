@@ -4,7 +4,7 @@
     <el-form :model="data" :rules="rules" ref="ruleForm" label-width="100px">
 
       <el-form-item label="报表名称" prop="reportFormName">
-        <el-input v-model="data.reportFormName" class="w400"></el-input>
+        <el-input v-model="data.reportFormName" class="w400" maxlength="50"></el-input>
       </el-form-item>
 
       <el-form-item label="报表类型" prop="reportFormTypeId">
@@ -19,15 +19,15 @@
       </el-form-item>
 
       <el-form-item label="副标题" prop="reportFormTitle">
-        <el-input v-model="data.reportFormTitle"  class="w400"></el-input>
+        <el-input v-model="data.reportFormTitle"  class="w400"  maxlength="50"></el-input>
       </el-form-item>
 
       <el-form-item label="单位" prop="reportFormUnit">
-        <el-input v-model="data.reportFormUnit"  class="w400"></el-input>
+        <el-input v-model="data.reportFormUnit"  class="w400"  maxlength="10"></el-input>
       </el-form-item>
 
       <el-form-item label="备注/说明" prop="reportFormRemark">
-        <el-input type="textarea" v-model="data.reportFormRemark" class="w400"></el-input>
+        <el-input type="textarea" v-model="data.reportFormRemark"  maxlength="200" class="w400"></el-input>
       </el-form-item>
 
       <el-form-item>

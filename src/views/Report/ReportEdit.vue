@@ -58,7 +58,7 @@ export default {
         manualRowMove: true,
         rowHeaders: true,
         contextMenu: true,
-        colHeaders: true
+        colHeaders: []
         // colWidths: 100
       }, // 报表导入设置
       tabIndex: '1'
@@ -77,17 +77,17 @@ export default {
         this.report.reportFormId = reportFormId
         this.report.reportDataContent = JSON.parse(this.report.reportDataContent)
         this.importSetting.data = this.report.reportDataContent
-        this.report.reportFormTypeId = 1
+        // 设置表头 列名
+        if (this.report.reportDataContent.length) {
+          this.importSetting.colHeaders = Object.keys(this.report.reportDataContent[0])
+        }
+        // this.report.reportFormTypeId = 1
         // this.getAxisData()
       }
     },
     // 保存
     async onSave () {
-      let isValid = true
-      this.report.reportFormItemArray.map((item, index) => {
-        isValid = isValid && this.validateCharts(item, index)
-      })
-      if (!isValid) return
+      if (!this.validForm()) return
       let url = 'admin/reportForm/save.do'
       if (this.report.reportFormId) {
         url = 'admin/reportForm/edit.do'
@@ -107,6 +107,26 @@ export default {
       }
       // console.log('控制台打印:', res)
     },
+    // 验证整个表单
+    validForm () {
+      let isValid = true
+      if (!this.report.reportFormName) {
+        this.$message.error(`请输入报表名称`)
+        return false
+      }
+      if (!this.report.reportFormTypeId) {
+        this.$message.error(`请选择报表类型`)
+        return false
+      }
+      if (!this.report.reportDataContent.length) {
+        this.$message.error(`请上传报表`)
+        return
+      }
+      this.report.reportFormItemArray.map((item, index) => {
+        isValid = isValid && this.validateCharts(item, index)
+      })
+      return isValid
+    },
     // 验证 图表 表单
     validateCharts (chart, index) {
       if (!chart.name) {
@@ -115,6 +135,14 @@ export default {
       }
       if (!chart.type) {
         this.$message.error(`请选择第${index + 1}个图表: [${chart.name}] 的图表类型`)
+        return false
+      }
+      if (!chart.xMin || !chart.xMax) {
+        this.$message.error(`请输入第${index + 1}个图表: [${chart.name}] 的横轴数据范围`)
+        return false
+      }
+      if (!chart.yMin || !chart.yMax) {
+        this.$message.error(`请输入第${index + 1}个图表: [${chart.name}] 的纵轴数据范围`)
         return false
       }
       let xMinColumn = /^\D+(?=\d)/.exec(chart.xMin)[0].toUpperCase()

@@ -3,7 +3,7 @@
     <el-form :model="data" :rules="rules" ref="ruleForm" label-width="100px" class="form">
 
       <el-form-item label="图表名称" prop="name">
-        <el-input v-model="data.name" class="w320"></el-input>
+        <el-input v-model="data.name" class="w320"  maxlength="50"></el-input>
       </el-form-item>
 
       <el-form-item label="图表选择" prop="type">
@@ -20,15 +20,15 @@
       <el-form-item label="数据源" ></el-form-item>
 
       <el-form-item label="横轴(x)" prop="unit">
-        <el-input v-model="data.xMin"  class="w150"></el-input>
+        <el-input v-model="data.xMin"  class="w150" maxlength="50"></el-input>
         -
-        <el-input v-model="data.xMax"  class="w150"></el-input>
+        <el-input v-model="data.xMax"  class="w150" maxlength="50"></el-input>
       </el-form-item>
 
       <el-form-item label="纵轴(y)" prop="unit">
-        <el-input v-model="data.yMin"  class="w150"></el-input>
+        <el-input v-model="data.yMin"  class="w150" maxlength="50"></el-input>
         -
-        <el-input v-model="data.yMax"  class="w150"></el-input>
+        <el-input v-model="data.yMax"  class="w150" maxlength="50"></el-input>
       </el-form-item>
 
       <el-form-item>
@@ -72,6 +72,10 @@ export default {
   methods: {
     // 预览
     onPreview () {
+      if (!this.report.reportDataContent.length) {
+        this.$message.error(`没有报表数据,请上传报表`)
+        return
+      }
       // this.rendering = true
       let chart = this.$refs['chart']
       echarts.dispose(chart)
@@ -165,6 +169,14 @@ export default {
       }
       if (!this.data.type) {
         this.$message.error(`请选择图表类型`)
+        return false
+      }
+      if (!this.data.xMin || !this.data.xMax) {
+        this.$message.error(`请输入横轴数据范围`)
+        return false
+      }
+      if (!this.data.yMin || !this.data.yMax) {
+        this.$message.error(`请输入纵轴数据范围`)
         return false
       }
       let xMinColumn = /^\D+(?=\d)/.exec(this.data.xMin)[0].toUpperCase()
