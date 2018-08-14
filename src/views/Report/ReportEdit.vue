@@ -2,6 +2,7 @@
   <div class="v-wrap listWrap">
     <div class="v-title-box">
       <h3 class="v-title">报表详情</h3>
+      <el-button type="primary" @click="printReport">打印</el-button>
     </div>
     <el-tabs type="border-card" v-model="tabIndex">
       <el-tab-pane name="1">
@@ -22,15 +23,17 @@
         <ChartsEdit :data.sync="report"  @save="onSave"></ChartsEdit>
       </el-tab-pane>
     </el-tabs>
+    <PrintReport :data="report" :types="typeList" v-if="showPrint" @cb="closePrint"></PrintReport>
   </div>
 </template>
 <script>
 import BaseInfo from './components/BaseInfo'
 import ReportData from './components/ReportData'
 import ChartsEdit from './components/ChartsEdit'
+import PrintReport from './components/PrintReport'
 
 export default {
-  components: {BaseInfo, ReportData, ChartsEdit},
+  components: {BaseInfo, ReportData, ChartsEdit, PrintReport},
   data () {
     return {
       report: {
@@ -61,7 +64,8 @@ export default {
         colHeaders: []
         // colWidths: 100
       }, // 报表导入设置
-      tabIndex: '1'
+      tabIndex: '1',
+      showPrint: false
     }
   },
   methods: {
@@ -201,6 +205,14 @@ export default {
     // 下一步
     nextStep (idx) {
       this.tabIndex = idx
+    },
+    // 打印
+    printReport () {
+      this.showPrint = true
+    },
+    // 关闭打印
+    closePrint () {
+      this.showPrint = false
     }
   },
   created () {
