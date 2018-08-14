@@ -55,7 +55,7 @@
           <img class="codeImg" :src="loginForm.codePicUrl"  alt="验证码" @click="getVerifyCode"> <!-- :src="loginForm.codePicUrl"-->
         </el-form-item>
         <el-form-item>
-          <el-button style="width:320px;margin-top:30px;" type="primary" @click="handleLogin">
+          <el-button style="width:320px;margin-top:30px;" type="primary" :loading="loading" @click="handleLogin">
             登录
           </el-button>
         </el-form-item>
@@ -118,20 +118,18 @@ export default {
     handleLogin () {
       this.loginForm.username = this.loginForm.username.trim()
       this.loginForm.password = this.loginForm.password.trim()
-      this.loginForm.validToken = this.loginForm.validToken.trim()
+      this.loginForm.validCode = this.loginForm.validCode.trim()
       this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.loading = true
-
           let reqData = {
             username: this.loginForm.username,
             password: this.loginForm.password,
             validCode: this.loginForm.validCode,
             validToken: this.loginForm.validToken
           }
+          this.loading = true
           let res = await this.$post('admin/user/login.do', reqData)
           this.loading = false
-          console.log(res)
           if (parseInt(res.code) === 1) {
             // 下面是保存token信息
             this.$store.dispatch('SetTokenInfo', res.data)
