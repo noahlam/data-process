@@ -16,7 +16,7 @@
 
     <div :class="{mtb20:!showTable}">
       <el-button type="primary" @click="gotoNext">下一步</el-button>
-      <el-button type="primary" @click="onSave">保存</el-button>
+      <el-button type="primary" @click="onSave" v-if="data.reportFormId">保存</el-button>
       <el-button @click="onCancel">取消</el-button>
     </div>
 
