@@ -15,7 +15,7 @@
       <el-table-column align="left"  prop="articleContent" label="内容" width="600px">
         <template slot-scope="scope">
           <!--<div class="textHidden" v-html="scope.row.articleContent"></div>-->
-          <div class="textHidden">{{removeHTMLTag(scope.row.articleContent || '')}}</div>
+          <div class="textHidden" v-html="removeHTMLTag(scope.row.articleContent)"></div>
         </template>
       </el-table-column>
       <el-table-column align="center" label="发布时间">
@@ -66,8 +66,10 @@ export default{
     },
     // 转换html 为文本
     removeHTMLTag (html) {
+      if (!html) {
+        return ''
+      }
       let htmlTagReg = /<(\/)?[^>].*?>/g
-      // console.log('数据', html.replace(htmlTagReg, ''))
       return html.replace(htmlTagReg, '').trim()
     },
     // 单个删除

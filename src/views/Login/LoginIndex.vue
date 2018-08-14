@@ -131,7 +131,7 @@ export default {
           let res = await this.$post('admin/user/login.do', reqData)
           this.loading = false
           if (parseInt(res.code) === 1) {
-            // 下面是保存token信息
+            // 下面是保存token信息npm
             this.$store.dispatch('SetTokenInfo', res.data)
             // if (this.loginForm.rememberPas) { // 记住密码
             //   let userLoginInfo = {

@@ -58,7 +58,7 @@ export default {
       if (parseInt(res.code) === 1) {
         this.listData = res.data.reportFormTypeArray || []
       } else {
-        this.$message.success(res.message)
+        this.$message.error(res.message)
       }
     },
     // 显示弹窗

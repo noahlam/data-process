@@ -1,17 +1,23 @@
 <template>
-  <div class="v-wrap articeContent">
+  <div class="v-wrap articleContent">
     <div class="v-title-box">
       <h3 class="v-title">文章内容</h3>
     </div>
+    <!--<div>-->
+      <!--<el-button class="v-button" @click="toPrint">打印</el-button>-->
+    <!--</div>-->
     <el-form :model="formData" :rules="formRules" v-loading="mainLoading" ref="formDataRef" label-width="90px" class="v-form" @submit.native.prevent>
       <el-form-item label="文章标题" prop="articleTitle">
-        <el-input v-model="formData.articleTitle" :maxlength="50" style="width: 350px"> </el-input>
+        <div class="box">
+          <el-input v-model="formData.articleTitle" :maxlength="50" style="width: 350px"> </el-input>
+          <Print :content="formData.articleContent" :formData="formData"/>
+        </div>
       </el-form-item>
       <el-form-item label="封面">
         <ImgUpload ref="imgRef" :formData="formData"/>
       </el-form-item>
       <el-form-item label="文章内容">
-        <tinymce :height="200" v-model="formData.articleContent"> </tinymce>
+        <tinymce id="tinymce" :height="200" v-model="formData.articleContent"> </tinymce>
       </el-form-item>
       <el-form-item label="">
         <el-button class="v-button" type="primary" :loading="saveLoading" @click="toSaveData">保 存</el-button>
@@ -23,8 +29,9 @@
 <script>
 import Tinymce from '@/components/Tinymce'
 import ImgUpload from './components/ImgUpload'
+import Print from './components/Print'
 export default{
-  components: {ImgUpload, Tinymce},
+  components: {ImgUpload, Tinymce, Print},
   data () {
     return {
       articleId: this.$route.query.articleId || null,
@@ -42,6 +49,11 @@ export default{
     }
   },
   created () {
+    if (localStorage.getItem('articleContent')) {
+      this.formData = JSON.parse(localStorage.getItem('articleContent'))
+      localStorage.removeItem('articleContent')
+      return
+    }
     if (this.articleId) {
       this.getDetail()
     }
@@ -92,11 +104,30 @@ export default{
           this.$message.error(res.message)
         }
       })
+    },
+    toPrint () {
+      Print({
+        printable: 'tinymce',
+        type: 'html',
+        // 继承原来的所有样式
+        targetStyles: ['*']
+      })
+      // let newstr = this.content // 得到需要打印的元素HTML
+      // let oldstr = document.body.innerHTML // 保存当前页面的HTML
+      // document.body.innerHTML = newstr
+      // window.print()
+      // localStorage.setItem('articleContent', JSON.stringify(this.formData))
+      // document.body.innerHTML = oldstr
+      // window.location.reload()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped rel="stylesheet/scss">
-  @import '~@/styles/common.scss';
+  .box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 </style>

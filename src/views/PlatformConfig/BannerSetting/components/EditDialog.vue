@@ -134,8 +134,8 @@ export default {
           jumpUrl: this.formData.jumpUrl
         }
         let url = 'admin/banner/add.do'
-        if (this.bannerId) {
-          reqData.bannerId = this.bannerId
+        if (this.itemInfo.bannerId) {
+          reqData.bannerId = this.itemInfo.bannerId
           url = 'admin/banner/edit.do'
         }
         this.saveLoading = true
