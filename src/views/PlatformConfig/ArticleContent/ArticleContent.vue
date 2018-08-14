@@ -3,9 +3,6 @@
     <div class="v-title-box">
       <h3 class="v-title">文章内容</h3>
     </div>
-    <!--<div>-->
-      <!--<el-button class="v-button" @click="toPrint">打印</el-button>-->
-    <!--</div>-->
     <el-form :model="formData" :rules="formRules" v-loading="mainLoading" ref="formDataRef" label-width="90px" class="v-form" @submit.native.prevent>
       <el-form-item label="文章标题" prop="articleTitle">
         <div class="box">
@@ -49,11 +46,6 @@ export default{
     }
   },
   created () {
-    if (localStorage.getItem('articleContent')) {
-      this.formData = JSON.parse(localStorage.getItem('articleContent'))
-      localStorage.removeItem('articleContent')
-      return
-    }
     if (this.articleId) {
       this.getDetail()
     }
@@ -104,21 +96,6 @@ export default{
           this.$message.error(res.message)
         }
       })
-    },
-    toPrint () {
-      Print({
-        printable: 'tinymce',
-        type: 'html',
-        // 继承原来的所有样式
-        targetStyles: ['*']
-      })
-      // let newstr = this.content // 得到需要打印的元素HTML
-      // let oldstr = document.body.innerHTML // 保存当前页面的HTML
-      // document.body.innerHTML = newstr
-      // window.print()
-      // localStorage.setItem('articleContent', JSON.stringify(this.formData))
-      // document.body.innerHTML = oldstr
-      // window.location.reload()
     }
   }
 }
