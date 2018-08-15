@@ -89,7 +89,14 @@ export default {
                 text: this.data.name
               },
               tooltip: {
-                show: true
+                show: true,
+                formatter: v => {
+                  let name = v.name + ''
+                  if (name.length > 20) name = name.substr(0, 20) + '...'
+                  let value = v.value + ''
+                  if (value.length > 20) value = value.substr(0, 20) + '...'
+                  return `<div style="max-width: 100px; white-space: normal;">${name} : ${value}</div>`
+                }
               },
               legend: {
                 show: false
@@ -103,7 +110,19 @@ export default {
               series: [{
                 type: 'pie',
                 radius: '60%',
-                data: this.report.xyData
+                data: this.report.xyData,
+                label: {
+                  show: true,
+                  formatter: v => {
+                    let n = v.name + ''
+                    let arr = []
+                    n = n.substr(0, 20)
+                    for (let i = 0; i < n.length; i += 5) {
+                      arr.push(n.substr(i, 5))
+                    }
+                    return arr.join('\n')
+                  }
+                }
               }]
             }
             break
@@ -112,15 +131,40 @@ export default {
               title: {
                 text: this.data.name
               },
+              tooltip: {
+                show: true,
+                formatter: v => {
+                  let name = v.name + ''
+                  if (name.length > 20) name = name.substr(0, 20) + '...'
+                  let value = v.value + ''
+                  if (value.length > 20) value = value.substr(0, 20) + '...'
+                  return `<div style="max-width: 100px; white-space: normal;">${name} : ${value}</div>`
+                }
+              },
               legend: {
                 show: true
               },
               xAxis: {
                 show: true,
-                data: this.report.xData
+                data: this.report.xData,
+                axisLabel: {
+                  show: true,
+                  formatter: v => {
+                    let arr = []
+                    let n = v.substr(0, 12)
+                    for (let i = 0; i < n.length; i += 4) {
+                      arr.push(n.substr(i, 4))
+                    }
+                    return arr.join('\n')
+                  }
+                }
               },
               yAxis: {
                 show: true
+              },
+              grid: { // 控制图的大小，调整下面这些值就可以，
+                show: true,
+                left: '15%'
               },
               series: [{
                 type: 'bar',
@@ -136,20 +180,46 @@ export default {
               title: {
                 text: this.data.name
               },
+              tooltip: {
+                show: true,
+                formatter: v => {
+                  let name = v.name + ''
+                  if (name.length > 20) name = name.substr(0, 20) + '...'
+                  let value = v.value + ''
+                  if (value.length > 20) value = value.substr(0, 20) + '...'
+                  return `<div style="max-width: 100px; white-space: normal;">${name} : ${value}</div>`
+                }
+              },
               legend: {
                 show: true,
                 data: this.report.xData
               },
               xAxis: {
                 show: true,
-                data: this.report.xData
+                data: this.report.xData,
+                axisLabel: {
+                  show: true,
+                  formatter: v => {
+                    let arr = []
+                    let n = v.substr(0, 12)
+                    for (let i = 0; i < n.length; i += 4) {
+                      arr.push(n.substr(i, 4))
+                    }
+                    return arr.join('\n')
+                  }
+                }
               },
               yAxis: {
                 show: true
               },
+              grid: {
+                show: true,
+                left: '15%'
+              },
               series: [{
                 type: 'line',
                 smooth: true,
+                symbolSize: 10,
                 data: this.report.yData
               }
               ]

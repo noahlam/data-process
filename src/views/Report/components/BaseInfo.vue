@@ -27,7 +27,7 @@
       </el-form-item>
 
       <el-form-item label="备注/说明" prop="reportFormRemark">
-        <el-input type="textarea" v-model="data.reportFormRemark"  maxlength="200" class="w400"></el-input>
+        <el-input type="textarea" v-model="data.reportFormRemark" rows="6"  maxlength="1000" class="w400"></el-input>
       </el-form-item>
 
       <el-form-item>
