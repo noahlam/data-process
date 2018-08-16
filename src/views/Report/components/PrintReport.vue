@@ -5,7 +5,8 @@
     </div>
 
     <div class="line">
-      报表类型: {{getReportTypeString()}}
+      <!--报表类型: {{getReportTypeString()}}-->
+      单位: {{data.reportFormUnit}}
     </div>
 
     <div v-html="tableString"></div>
@@ -43,10 +44,10 @@ export default {
   },
   methods: {
     // 回显 报表类型
-    getReportTypeString () {
-      let cur = this.types.find(i => i.reportFormTypeId === this.data.reportFormTypeId)
-      return cur ? cur.reportFormTypeName : ''
-    },
+    // getReportTypeString () {
+    //   let cur = this.types.find(i => i.reportFormTypeId === this.data.reportFormTypeId)
+    //   return cur ? cur.reportFormTypeName : ''
+    // },
     // 渲染表格
     renderTable () {
       let str = `<style>
