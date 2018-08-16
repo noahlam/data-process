@@ -8,8 +8,9 @@
       <el-form-item label="昵称">{{detailInfo.nickname}} </el-form-item>
       <el-form-item label="手机号">{{detailInfo.mobile}} </el-form-item>
       <el-form-item label="性别">
-        <span v-if="detailInfo.sex === 1">男</span>
-        <span v-else-if="detailInfo.sex === 2">女</span>
+        <!--0:女;1:男;2:保密-->
+        <span v-if="scope.row.sex === 1">男</span>
+        <span v-else-if="scope.row.sex === 0">女</span>
         <span v-else>保密</span>
       </el-form-item>
       <el-form-item label="微信OpenID">{{detailInfo.wxOpenId}} </el-form-item>

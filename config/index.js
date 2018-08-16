@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://zzswjadmin.torvoz.cn',
+        target: 'http://zzswjop.torvoz.cn',
         changeOrigin: true
       }
     },

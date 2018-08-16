@@ -165,6 +165,7 @@ export default {
     min-height: 750px;
     min-width: 1200px;
     overflow: hidden;
+    background: #fff;
     /*background: #fff url("./assets/bg.png") no-repeat left center;*/
     /*background-size: auto 100%;*/
     display: flex;
@@ -190,7 +191,6 @@ export default {
     .img{
       position: absolute;
       top: 26%;
-      /*right: 39%;*/
       right: 560px;
       height: 47%;
       width: auto;
