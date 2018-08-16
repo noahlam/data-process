@@ -1,11 +1,11 @@
 <template>
   <div class="navBarWrap">
     <router-link to="/index" class="logoBox">
-      <img class="logo" src="../../assets/logo.png" alt="Logo" />
+      <img class="logo" src="./assets/logo.png" alt="Logo" />
     </router-link>
     <el-dropdown  class="userBox" trigger="click" @command="handleCommand">
       <div class="userInfo el-dropdown-link">
-        <img src="../../assets/photo.png" alt="">
+        <img src="./assets/photo.png" alt="">
         <span>{{userInfo.username}}</span>
         <i class="el-icon-arrow-down el-icon--right"></i>
       </div>
@@ -167,8 +167,8 @@ export default {
       vertical-align: top;
       text-align: center;
       .logo{
-        margin-top: 10px;
-        height: 60px;
+        margin-top: 18px;
+        height: 45px;
       }
     }
     /*.navBox{
