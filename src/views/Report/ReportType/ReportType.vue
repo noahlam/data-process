@@ -20,8 +20,10 @@
       </el-table-column>
       <el-table-column align="center" prop="date" label="操作" width="300px">
         <template slot-scope="scope">
-          <el-button size="small" type="primary" plain  @click="toOpenEdit(scope.row)">编辑</el-button>
-          <el-button size="small" type="danger" plain @click="toDelete(scope.row)">删除</el-button>
+          <el-button type="text" @click="moveUp(scope.row.reportFormTypeId)" v-if="scope.$index > 0">上移</el-button>
+          <el-button type="text" @click="moveDown(scope.row.reportFormTypeId)" v-if="scope.$index < listData.length-1">下移</el-button>
+          <el-button type="text" @click="toOpenEdit(scope.row)">编辑</el-button>
+          <el-button type="text" class="v-red" @click="toDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -99,6 +101,22 @@ export default {
       }).catch(() => {
         return false
       })
+    },
+    // 上移
+    moveUp (reportFormTypeId) {
+      this.toMoveData(reportFormTypeId, -1)
+    },
+    moveDown (reportFormTypeId) {
+      this.toMoveData(reportFormTypeId, 1)
+    },
+    async toMoveData (reportFormTypeId, step) {
+      let url = step > 0 ? 'admin/reportFormType/moveDown.do' : 'admin/reportFormType/moveUp.do'
+      let res = await this.$post(url, {reportFormTypeId})
+      if (parseInt(res.code) === 1) {
+        this.getList()
+      } else {
+        this.$message.error(res.message)
+      }
     }
   }
 }
