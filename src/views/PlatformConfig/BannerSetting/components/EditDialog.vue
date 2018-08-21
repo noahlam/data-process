@@ -134,7 +134,7 @@ export default {
           jumpUrl: this.formData.jumpUrl
         }
         let url = 'admin/banner/add.do'
-        if (this.itemInfo.bannerId) {
+        if (this.itemInfo && this.itemInfo.bannerId) {
           reqData.bannerId = this.itemInfo.bannerId
           url = 'admin/banner/edit.do'
         }
@@ -184,8 +184,7 @@ export default {
     }
     .imgBox {
       width: 100%;
-      min-height: 200px;
-      max-height: 200px;
+      height: 200px;
       display: flex;
       align-items: center;
       justify-content: center;

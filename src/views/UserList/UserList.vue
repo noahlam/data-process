@@ -39,9 +39,9 @@
       <el-table-column align="center" prop="nickname" label="昵称"> </el-table-column>
       <el-table-column align="center" prop="sex" label="性别">
         <template slot-scope="scope">
-          <!--0:保密;1:男;2:女-->
+          <!--0:女;1:男;2:保密-->
           <span v-if="scope.row.sex === 1">男</span>
-          <span v-else-if="scope.row.sex === 2">女</span>
+          <span v-else-if="scope.row.sex === 0">女</span>
           <span v-else>保密</span>
         </template>
       </el-table-column>
