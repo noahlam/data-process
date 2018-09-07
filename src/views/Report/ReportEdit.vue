@@ -20,7 +20,7 @@
       </el-tab-pane>
       <el-tab-pane name="3">
         <span slot="label">移动端生成图表</span>
-        <ChartsEdit :data.sync="report"  @save="onSave"></ChartsEdit>
+        <ChartsEdit :data="report"  @save="onSave"></ChartsEdit>
       </el-tab-pane>
     </el-tabs>
     <PrintReport :data="report" :types="typeList" v-if="showPrint" @cb="closePrint"></PrintReport>

@@ -1,5 +1,5 @@
 <template>
-  <div ref="printContent">
+  <div ref="printContent" class="wrap">
     <div class="line">
       报表名称: {{data.reportFormName}}
     </div>
@@ -14,51 +14,50 @@
     <div class="line" v-if="data.reportFormRemark">
       备注/说明: {{data.reportFormRemark}}
     </div>
+
+    <ChartToImage v-for="(item,index) in data.reportFormItemArray"
+           :key="index"
+           :data="item"
+            @renderOk="renderOk"
+           :report="data">
+    </ChartToImage>
   </div>
 </template>
 
 <script>
+import ChartToImage from './ChartToImage'
 export default {
+  components: {ChartToImage},
   name: 'PrintReport',
   props: {
     data: {
       type: Object,
       default: () => {
       }
-    },
-    types: {
-      type: Array,
-      default: () => []
     }
   },
   data () {
     return {
-      tableString: ''
+      tableString: '',
+      renderOkChartNum: 0
     }
   },
   created () {
     this.renderTable()
   },
   mounted () {
-    this.toPrint()
+    // setTimeout(this.toPrint, 3000)
   },
   methods: {
-    // 回显 报表类型
-    // getReportTypeString () {
-    //   let cur = this.types.find(i => i.reportFormTypeId === this.data.reportFormTypeId)
-    //   return cur ? cur.reportFormTypeName : ''
-    // },
+    renderOk () {
+      this.renderOkChartNum++
+      if (this.renderOkChartNum === this.data.reportFormItemArray.length) {
+        this.toPrint()
+      }
+    },
     // 渲染表格
     renderTable () {
       let str = `<style>
-        .line {
-            padding: 10px 0;
-         }
-        .dataTable {
-          box-sizing: border-box;
-          overflow-x: scroll;
-        }
-
         .dataTable td {
           border: 1px solid #ccc;
           height: 25px;
@@ -120,3 +119,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .wrap{
+    /*width: 590px;*/
+  }
+</style>
