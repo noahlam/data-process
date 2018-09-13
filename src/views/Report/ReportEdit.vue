@@ -6,34 +6,28 @@
     </div>
     <el-tabs type="border-card" v-model="tabIndex">
       <el-tab-pane name="1">
-        <span slot="label">基础信息</span>
-        <BaseInfo :data="report" :types="typeList" @next="nextStep" @save="onSave"></BaseInfo>
-      </el-tab-pane>
-      <el-tab-pane name="2">
         <span slot="label">报表数据</span>
         <ReportData :data="report"
                     :settings="importSetting"
                     @next="nextStep"
-                    @save="onSave"
-                    v-if="tabIndex === '2'">
+                    v-if="tabIndex === '1'">
         </ReportData>
       </el-tab-pane>
-      <el-tab-pane name="3">
+      <el-tab-pane name="2">
         <span slot="label">移动端生成图表</span>
-        <ChartsEdit :data="report"  @save="onSave"></ChartsEdit>
+        <ChartsEdit :data="report"></ChartsEdit>
       </el-tab-pane>
     </el-tabs>
     <PrintReport :data="report" :types="typeList" v-if="showPrint" @cb="closePrint"></PrintReport>
   </div>
 </template>
 <script>
-import BaseInfo from './components/BaseInfo'
 import ReportData from './components/ReportData'
 import ChartsEdit from './components/ChartsEdit'
 import PrintReport from './components/PrintReport'
 
 export default {
-  components: {BaseInfo, ReportData, ChartsEdit, PrintReport},
+  components: {ReportData, ChartsEdit, PrintReport},
   data () {
     return {
       report: {
@@ -69,48 +63,6 @@ export default {
     }
   },
   methods: {
-    // 获取报表数据
-    async getReportData () {
-      if (!this.report.reportFormId) return
-      let reportFormId = this.report.reportFormId
-      let url = 'admin/reportForm/detail.do'
-      let body = {reportFormId: reportFormId}
-      let res = await this.$post(url, body)
-      if (res.code === '1') {
-        this.report = res.data
-        this.report.reportFormId = reportFormId
-        this.report.reportDataContent = JSON.parse(this.report.reportDataContent)
-        this.importSetting.data = this.report.reportDataContent
-        // 设置表头 列名
-        if (this.report.reportDataContent.length) {
-          this.importSetting.colHeaders = Object.keys(this.report.reportDataContent[0])
-        }
-        // this.report.reportFormTypeId = 1
-        // this.getAxisData()
-      }
-    },
-    // 保存
-    async onSave () {
-      if (!this.validForm()) return
-      let url = 'admin/reportForm/save.do'
-      if (this.report.reportFormId) {
-        url = 'admin/reportForm/edit.do'
-      }
-      let body = JSON.parse(JSON.stringify(this.report))
-      body.reportDataContent = JSON.stringify(body.reportDataContent)
-      body.reportFormItemArray = JSON.stringify(body.reportFormItemArray)
-      body.xData = undefined
-      body.yData = undefined
-      body.xyData = undefined
-      let res = await this.$post(url, body)
-      if (res.code === '1') {
-        this.$message.success('保存成功!')
-        this.$router.push('/report/reportList')
-      } else {
-        this.$message.error('保存失败!' + res.message)
-      }
-      // console.log('控制台打印:', res)
-    },
     // 验证整个表单
     validForm () {
       let isValid = true
@@ -189,19 +141,6 @@ export default {
         this.report.axisYKeys.push(i)
       }
     },
-    // 获取报表类型列表
-    async getReportTypes () {
-      let url = 'admin/reportFormType/list.do'
-      let body = {
-        currentPage: 1,
-        showCount: 99999
-      }
-      let res = await this.$post(url, body)
-      if (res.code === '1') {
-        this.typeList = res.data.reportFormTypeArray
-      }
-      // console.log(res)
-    },
     // 下一步
     nextStep (idx) {
       this.tabIndex = idx
@@ -216,20 +155,20 @@ export default {
     }
   },
   created () {
-    this.report.reportFormId = this.$route.query.id
-    this.getReportTypes()
-    this.getReportData()
   }
 }
 </script>
 
+<style lang="scss" rel="stylesheet/scss">
+  @import '~@/styles/handsontable.full.scss';
+</style>
+
 <style lang="scss" scoped rel="stylesheet/scss">
-  @import '~@/styles/common.scss';
 
   .listWrap {
     .mainBtn {
       padding: 20px 0 20px;
-      border-top: 1px solid $border-base;
+      border-top: 1px solid #e6e6e6;
     }
     .showLongContent {
       width: 100%;
@@ -255,7 +194,7 @@ export default {
     p {
       margin: 6px 0 0;
       text-align: right;
-      color: $color-danger;
+      color: #f40009;
     }
     h4 {
       font-weight: normal;

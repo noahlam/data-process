@@ -1,21 +1,5 @@
-# MCloud-admin
+# 数据处理
 
-> A Vue.js project
+之前写了一篇 [js-xlsx + handsontable + echarts实现excel上传编辑然后显示成图表](https://github.com/noahlam/articles/blob/master/js-xlsx%20%2B%20handsontable%20%2B%20echarts.md)本来至少作为一个个人的项目总结，感觉这代码就算一些库的使用而已。没有开源的价值，不过这篇内容发在掘金上后，很多同学回复说像看源码，所以就开源。
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+源码我说直接从业务代码里面抽离出来的。所以可能会有抽离不干净或者代码本身写的不好的地方。请大家海涵哈。

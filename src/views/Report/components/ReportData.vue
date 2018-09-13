@@ -2,7 +2,7 @@
   <div class="wrap">
 
     <div class="upload">
-      <input type="file" class="fileSelect" value="111" @change="importData" ref="file">
+      <input type="file" class="fileSelect" value="" @change="importData" ref="file">
 
       <el-button type="primary">
         <i class="el-icon-upload2 icon"></i>Excel导入
@@ -58,7 +58,7 @@ export default {
         this.$message.error('请先导入数据')
         return
       }
-      this.$emit('next', '3')
+      this.$emit('next', '2')
     },
     // 保存
     onSave () {

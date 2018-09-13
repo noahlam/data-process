@@ -86,20 +86,6 @@ export default {
               title: {
                 text: this.data.name
               },
-              tooltip: {
-                show: true,
-                formatter: v => {
-                  let name = v.name + ''
-                  if (name.length > 20) name = name.substr(0, 20) + '...'
-                  let value = v.value + ''
-                  if (value.length > 20) value = value.substr(0, 20) + '...'
-                  return `<div style="max-width: 100px; white-space: normal;">${name} : ${value}</div>`
-                }
-              },
-              dataZoom: {
-                type: 'slider',
-                startValue: '0'
-              },
               legend: {
                 show: false
               },
@@ -114,17 +100,7 @@ export default {
                 radius: '60%',
                 data: this.report.xyData,
                 label: {
-                  show: true,
-                  interval: 0,
-                  formatter: v => {
-                    let n = v.name + ' ' + v.value
-                    let arr = []
-                    n = n.substr(0, 20)
-                    for (let i = 0; i < n.length; i += 10) {
-                      arr.push(n.substr(i, 10))
-                    }
-                    return arr.join('\n')
-                  }
+                  show: true
                 }
               }]
             }
@@ -134,20 +110,6 @@ export default {
               title: {
                 text: this.data.name
               },
-              tooltip: {
-                show: true,
-                formatter: v => {
-                  let name = v.name + ''
-                  if (name.length > 20) name = name.substr(0, 20) + '...'
-                  let value = v.value + ''
-                  if (value.length > 20) value = value.substr(0, 20) + '...'
-                  return `<div style="max-width: 100px; white-space: normal;">${name} : ${value}</div>`
-                }
-              },
-              dataZoom: {
-                type: 'slider',
-                startValue: '0'
-              },
               legend: {
                 show: true
               },
@@ -155,16 +117,7 @@ export default {
                 show: true,
                 data: this.report.xData,
                 axisLabel: {
-                  interval: 0,
-                  show: true,
-                  formatter: v => {
-                    let arr = []
-                    let n = v.substr(0, 12)
-                    for (let i = 0; i < n.length; i += 4) {
-                      arr.push(n.substr(i, 4))
-                    }
-                    return arr.join('\n')
-                  }
+                  show: true
                 }
               },
               yAxis: {
@@ -194,20 +147,6 @@ export default {
               title: {
                 text: this.data.name
               },
-              tooltip: {
-                show: true,
-                formatter: v => {
-                  let name = v.name + ''
-                  if (name.length > 20) name = name.substr(0, 20) + '...'
-                  let value = v.value + ''
-                  if (value.length > 20) value = value.substr(0, 20) + '...'
-                  return `<div style="max-width: 100px; white-space: normal;">${name} : ${value}</div>`
-                }
-              },
-              dataZoom: {
-                type: 'slider',
-                startValue: '0'
-              },
               legend: {
                 show: true,
                 data: this.report.xData
@@ -216,16 +155,7 @@ export default {
                 show: true,
                 data: this.report.xData,
                 axisLabel: {
-                  show: true,
-                  interval: 0,
-                  formatter: v => {
-                    let arr = []
-                    let n = v.substr(0, 12)
-                    for (let i = 0; i < n.length; i += 4) {
-                      arr.push(n.substr(i, 4))
-                    }
-                    return arr.join('\n')
-                  }
+                  show: true
                 }
               },
               yAxis: {
